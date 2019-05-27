@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Clipping Polygon</title>
+	<title>Clipping Polygon</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="support1.css"><!-- Linking the CSS file -->
+	
 </head>
 <body>
-	<form>
-		Enter The Dimensions of Square   <br>
-		<input type="number" id='x1s' value="100">x1  
-		<input type="number" id='y1s' value="100">y1 <br>  
-		<input type="number" id='x2s' value="200">x2 
-		<input type="number" id='y2s' value="200">y2 <br>
-		<input type="submit" value="Okay" ><br>
-	</form>
-	<canvas id="myCanvas" width="500" height="500"
-style="border:1px solid #c3c3c3;">
-Your browser does not support the canvas element.PLEASE CHECK THE BROWSER AND UPDATE IT
-</canvas>
-
-	<script src="t2.js"></script>
+	<div class="row">
+	<div class="column" id="column1"> <!-- Dividing the Page into left part-->
+		<form>
+			Enter The Dimensions of Rectangle   <br>
+			Note - The Co-ordinates Entered should of the diagonal of the Rectangle <br> <!-- Entered The Co-ordinates of the Rectangle--> 
+			<input type="number" id='x1s' value="100">x1  
+			<input type="number" id='y1s' value="100">y1 <br>  
+			<input type="number" id='x2s' value="300">x2 
+			<input type="number" id='y2s' value="300">y2 <br><br>
+			Enter the sides of the Polygon(max 10) <emsp></emsp><!-- Entereing the Co-ordinates of the Polygon -->
+			<input type="number" id="polyside" value='10'><br>
+			Enter The Co-ordinates in clockwise direction
+			<textarea id="polyco" rows="2" cols="50">20 120,120 20,150 135,200 200,360 150,320 290,250 380,200 420,150 250,100 200,</textarea><br>
+			<button type="button" onclick="poly_draw()"> Okay </button><br><!-- Calling the Poly_draw() function which will print the polygon along with the rectangle in which it is to be clipped-->
+		</form>
+		<p id="print"></p>
+	</div>
+	<div class="column" id="column2">
+		<canvas id="myCanvas" width="500" height="500"style="border:1px solid #c3c3c3;">
+		Your browser does not support the canvas element.PLEASE CHECK THE BROWSER AND UPDATE IT
+		</canvas>
+		<script src="support1.js"></script> <!-- Linking the Javascript File -->
+	</div>
+	
+	</div>
 </body>
 </html>
