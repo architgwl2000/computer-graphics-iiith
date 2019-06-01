@@ -14,7 +14,7 @@ var y2s=document.getElementById("y2s").value;
 var polyco = document.getElementById("polyco").value;
 var polyside=document.getElementById("polyside").value;
 var polyco_length=polyco.length;
-var coordinates=[[20,120],[120,20],[150,135],[200,200],[360,150],[320,290],[250,380],[200,420],[150,250],[100,210]];
+var coordinates=[[50,200],[200,50],[350,200],[200,350],[360,150],[320,290],[250,380],[200,420],[150,250],[100,210]];
 
 //Coordinates of the Rectangle
 var ax = x1s;
@@ -102,32 +102,40 @@ function poly_draw()
 function clipping()
 {
 	clipEdge++;
-	clip(polygonPath);
+	clip();
 }
 
 
 
-function clip(path)
+function clip()
 {
 	switch(clipEdge)
 	{
 		case 1: 
-				clip_left(path);
+				clip_left(polygonPath);
 				break;
 		
-		case 2: 
+		case 2: polygonPath=clippedPath.slice();
 				clippedPath = [];
-				clip_top(path);
+				clip_top(polygonPath);
 				break;
 
-		case 3: 
+		case 3: polygonPath=clippedPath.slice();
 				clippedPath = [];
-				clip_right(path);
+				clip_right(polygonPath);
 				break;
 
-		case 4: 
+		case 4: polygonPath=clippedPath.slice();
 				clippedPath = [];
-				clip_down(path);
+				clip_down(polygonPath);
+				break;
+		case 5: polygonPath=clippedPath.slice();
+				clippedPath = [];
+				context.clearRect(0, 0, 500, 500);
+				context.fillStyle = 'red';
+				drawPolygon(polygonPath);
+				document.getElementById("print1").innerHTML = "Coordinates Of New Polygon Are";
+				document.getElementById("print2").innerHTML = polygonPath;
 				break;
 	}
 }
@@ -138,43 +146,62 @@ function clip_left(path)
 	for(i=0; i<path.length-1; i++)
 	{
 		if(!isInside(path[i], 'left') && !isInside(path[i+1], 'left'))
-		{
+		{//No point Inside
 		}
 		
 		else if(isInside(path[i], 'left') && isInside(path[i+1], 'left'))
-		{
-			clippedPath.push(path[i]);
+		{//Both Inside 
+			clippedPath.push(path[i+1]);
 		}
 		
-		else if(isInside(path[i], 'left'))
-		{
-			if(!isInside(path[i+1], 'left'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'left');
-
-				clippedPath.push(path[i]);
-				clippedPath.push(intersection);
-			}
+		else if(isInside(path[i], 'left') && !isInside(path[i+1], 'left'))
+		{//First In second out
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'left');
+			clippedPath.push(intersection);
 		}
-		else if(!isInside(path[i], 'left'))
-		{
-			if(isInside(path[i+1], 'left'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'left');
+		
+		else if(!isInside(path[i], 'left') && isInside(path[i+1], 'left'))
+		{//First Out Second In 
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'left');
 
-				clippedPath.push(intersection);
-				clippedPath.push(path[i+1]);
-			}
+			clippedPath.push(intersection);
+			clippedPath.push(path[i+1]);
 		}
 	}
-	clippedPath.push(clippedPath[0]);
+	//For Adding Last Point And First Point
+	if(!isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
+	{//No point Inside
+	}
+	
+	else if(isInside(path[path.length-1], 'left') && isInside(path[0], 'left'))
+	{//Both Inside 
+		clippedPath.push(path[0]);
+	}
+	
+	else if(isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
+	{//First In second out
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'left');
+		clippedPath.push(intersection);
+	}
+	
+	else if(!isInside(path[path.length-1], 'left') && isInside(path[0], 'left'))
+	{//First Out Second In 
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'left');
+
+		clippedPath.push(intersection);
+		clippedPath.push(path[0]);
+	}
+
 	context.clearRect(0, 0, 500, 500);
 	context.fillStyle = 'white';
 	drawPolygon(path);
 	context.fillStyle = 'lightgreen';
 	drawPolygon(clippedPath);
+	
 }
 //Clip the Top Edge
 function clip_top(path)
@@ -183,35 +210,54 @@ function clip_top(path)
 	for(i=0; i<path.length-1; i++)
 	{
 		if(!isInside(path[i], 'top') && !isInside(path[i+1], 'top'))
-		{
-			//No points are added to the clipped polygon
-		}	
-		else if(isInside(path[i], 'top') && isInside(path[i+1], 'top'))
-		{
-			clippedPath.push(path[i]);
+		{//No point Inside
 		}
-		else if(isInside(path[i], 'top'))
-		{
-			if(!isInside(path[i+1], 'top'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'top');
 		
-				clippedPath.push(path[i]);
-				clippedPath.push(intersection);
-			}
+		else if(isInside(path[i], 'top') && isInside(path[i+1], 'top'))
+		{//Both Inside 
+			clippedPath.push(path[i+1]);
 		}
-		else if(!isInside(path[i], 'top'))
-		{
-			if(isInside(path[i+1], 'top'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'top');
+		
+		else if(isInside(path[i], 'top') && !isInside(path[i+1], 'top'))
+		{//First In second out
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'top');
+			clippedPath.push(intersection);
+		}
+		
+		else if(!isInside(path[i], 'top') && isInside(path[i+1], 'top'))
+		{//First Out Second In 
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'top');
 
-				clippedPath.push(intersection);
-				clippedPath.push(path[i+1]);
-			}
+			clippedPath.push(intersection);
+			clippedPath.push(path[i+1]);
 		}
+	}
+	//For Adding Last Point And First Point
+	if(!isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
+	{//No point Inside
+	}
+	
+	else if(isInside(path[path.length-1], 'top') && isInside(path[0], 'top'))
+	{//Both Inside 
+		clippedPath.push(path[0]);
+	}
+	
+	else if(isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
+	{//First In second out
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'top');
+		clippedPath.push(intersection);
+	}
+	
+	else if(!isInside(path[path.length-1], 'top') && isInside(path[0], 'top'))
+	{//First Out Second In 
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'top');
+
+		clippedPath.push(intersection);
+		clippedPath.push(path[0]);
 	}
 
 	clippedPath.push(clippedPath[0]);	
@@ -226,41 +272,59 @@ function clip_top(path)
 function clip_right(path)
 {
 	document.getElementById("print1").innerHTML = "Clipping from right";
-
 	for(i=0; i<path.length-1; i++)
 	{
 		if(!isInside(path[i], 'right') && !isInside(path[i+1], 'right'))
-		{
+		{//No point Inside
 		}
 		
 		else if(isInside(path[i], 'right') && isInside(path[i+1], 'right'))
-		{
-			clippedPath.push(path[i]);
+		{//Both Inside 
+			clippedPath.push(path[i+1]);
 		}
 		
-		else if(isInside(path[i], 'right'))
-		{
-			if(!isInside(path[i+1], 'right'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'right');
-
-				clippedPath.push(path[i]);
-				clippedPath.push(intersection);
-			}
+		else if(isInside(path[i], 'right') && !isInside(path[i+1], 'right'))
+		{//First In second out
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'right');
+			clippedPath.push(intersection);
 		}
-		else if(!isInside(path[i], 'right'))
-		{
-			if(isInside(path[i+1], 'right'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'right');
+		
+		else if(!isInside(path[i], 'right') && isInside(path[i+1], 'right'))
+		{//First Out Second In 
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'right');
 
-				clippedPath.push(intersection);
-				clippedPath.push(path[i+1]);
-			}
+			clippedPath.push(intersection);
+			clippedPath.push(path[i+1]);
 		}
 	}
+	//For Adding Last Point And First Point
+	if(!isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
+	{//No point Inside
+	}
+	
+	else if(isInside(path[path.length-1], 'right') && isInside(path[0], 'right'))
+	{//Both Inside 
+		clippedPath.push(path[0]);
+	}
+	
+	else if(isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
+	{//First In second out
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'right');
+		clippedPath.push(intersection);
+	}
+	
+	else if(!isInside(path[path.length-1], 'right') && isInside(path[0], 'right'))
+	{//First Out Second In 
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'right');
+
+		clippedPath.push(intersection);
+		clippedPath.push(path[0]);
+	}
+
 	clippedPath.push(clippedPath[0]);
 	context.clearRect(0, 0, 500, 500);	
 	context.fillStyle = 'white';
@@ -276,36 +340,54 @@ function clip_down(path)
 	for(i=0; i<path.length-1; i++)
 	{
 		if(!isInside(path[i], 'down') && !isInside(path[i+1], 'down'))
-		{
-
+		{//No point Inside
 		}
+		
 		else if(isInside(path[i], 'down') && isInside(path[i+1], 'down'))
-		{
-			clippedPath.push(path[i]);
+		{//Both Inside 
+			clippedPath.push(path[i+1]);
 		}
-		else if(isInside(path[i], 'down'))
-		{
-			if(!isInside(path[i+1], 'down'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'down');
-
-				clippedPath.push(path[i]);
-				clippedPath.push(intersection);
-			}
+		
+		else if(isInside(path[i], 'down') && !isInside(path[i+1], 'down'))
+		{//First In second out
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'down');
+			clippedPath.push(intersection);
 		}
-		else if(!isInside(path[i], 'down'))
-		{
-			if(isInside(path[i+1], 'down'))
-			{
-				endpoints = [path[i], path[i+1]];
-				intersection = find_intersection(endpoints, 'down');
+		
+		else if(!isInside(path[i], 'down') && isInside(path[i+1], 'down'))
+		{//First Out Second In 
+			endpoints = [path[i], path[i+1]];
+			intersection = find_intersection(endpoints, 'down');
 
-				clippedPath.push(intersection);
-				clippedPath.push(path[i+1]);
-			}
+			clippedPath.push(intersection);
+			clippedPath.push(path[i+1]);
 		}
+	}
+	//For Adding Last Point And First Point
+	if(!isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
+	{//No point Inside
+	}
+	
+	else if(isInside(path[path.length-1], 'down') && isInside(path[0], 'down'))
+	{//Both Inside 
+		clippedPath.push(path[0]);
+	}
+	
+	else if(isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
+	{//First In second out
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'down');
+		clippedPath.push(intersection);
+	}
+	
+	else if(!isInside(path[path.length-1], 'down') && isInside(path[0], 'down'))
+	{//First Out Second In 
+		endpoints = [path[path.length-1], path[0]];
+		intersection = find_intersection(endpoints, 'down');
 
+		clippedPath.push(intersection);
+		clippedPath.push(path[0]);
 	}
 	clippedPath.push(clippedPath[0]);
 	context.clearRect(0, 0, 500, 500);	
@@ -360,7 +442,8 @@ function find_intersection(endpoints, edge)
 		intersection[0] = (ymax - c)/m;
 		intersection[1] = ymax;
 	}
-
+	intersection[0]=Math.round(intersection[0]);
+	intersection[1]=Math.round(intersection[1]);
 	return intersection;
 }	
 
