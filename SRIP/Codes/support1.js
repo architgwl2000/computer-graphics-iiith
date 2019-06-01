@@ -37,36 +37,39 @@ var polygonPath=[];
 var clippedPath=[];
 
 //Used In Clip Fuction as SwtichVariable for Clipping Squencially left-top-right-bottom
-var clipEdge=0;
+var clipEdge=1;
+
+//Used For Every Iteration of the Polygon with respect to a single side 
+var l=0;
 
 //Function for Drawing the Square
 function square_draw()  
 {
-		//drawing line x=200, of length 300 units (pixels)
-			context.beginPath();
-			context.moveTo(ax, ay);
-			context.lineTo(bx, by);
-			context.stroke();	
+	context.strokeStyle = 'black' ;
+	//drawing line 1
+	context.beginPath();
+	context.moveTo(ax, ay);
+	context.lineTo(bx, by);
+	context.stroke();	
 
-			//drawing line y=200, length 300 pixels
-			context.beginPath();
-			context.moveTo(bx, by);
-			context.lineTo(cx,cy);
-			context.stroke();
+	//drawing line 2
+	context.beginPath();
+	context.moveTo(bx, by);
+	context.lineTo(cx,cy);
+	context.stroke();
 
-			//drawing line x=500
-			context.beginPath();
-			context.moveTo(cx, cy);
-			context.lineTo(dx, dy);
-			context.stroke();
+	//drawing line 3
+	context.beginPath();
+	context.moveTo(cx, cy);
+	context.lineTo(dx, dy);
+	context.stroke();
 
-			//drawing line y=500
-			context.beginPath();
-			context.moveTo(dx, dy);
-			context.lineTo(ax, ay);
-			context.stroke();
+	//drawing line 4
+	context.beginPath();
+	context.moveTo(dx, dy);
+	context.lineTo(ax, ay);
+	context.stroke();
 }
-
 
 //Function For Converting the polygon text coordinates to the coordinates stored in array	
 function poly_draw()
@@ -101,301 +104,435 @@ function poly_draw()
 //Function Clipping executes On Clicking Clip Everytime
 function clipping()
 {
-	clipEdge++;
 	clip();
+	l++;
 }
 
-
-
+//Function To clip the edge It gets called by clipping() function and it clips the respective edge
 function clip()
 {
 	switch(clipEdge)
 	{
 		case 1: 
-				clip_left(polygonPath);
+				clip_left(polygonPath,l);
 				break;
 		
-		case 2: polygonPath=clippedPath.slice();
-				clippedPath = [];
-				clip_top(polygonPath);
+		case 2: 
+				clip_top(polygonPath,l);
 				break;
 
-		case 3: polygonPath=clippedPath.slice();
-				clippedPath = [];
-				clip_right(polygonPath);
+		case 3: 
+				clip_right(polygonPath,l);
 				break;
 
-		case 4: polygonPath=clippedPath.slice();
-				clippedPath = [];
-				clip_down(polygonPath);
+		case 4: 
+				clip_down(polygonPath,l);
 				break;
-		case 5: polygonPath=clippedPath.slice();
-				clippedPath = [];
+		
+		case 5: 
 				context.clearRect(0, 0, 500, 500);
 				context.fillStyle = 'red';
 				drawPolygon(polygonPath);
 				document.getElementById("print1").innerHTML = "Coordinates Of New Polygon Are";
 				document.getElementById("print2").innerHTML = polygonPath;
+				document.getElementById("print3").innerHTML = "New Sides - " + (polygonPath.length-1);
+				document.getElementById("print4").innerHTML = "Experiment Ends Here";
 				break;
 	}
 }
+
 //Clip the Left Edge
-function clip_left(path)
+function clip_left(path,i)
 {
-	document.getElementById("print1").innerHTML = "Clipping from left";
-	for(i=0; i<path.length-1; i++)
+	document.getElementById("print1").innerHTML = "Clipping Left Edge";
+	
+	if(i>=0 && i<path.length-1)
 	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		drawLine(path[i],path[i+1]);
 		if(!isInside(path[i], 'left') && !isInside(path[i+1], 'left'))
 		{//No point Inside
+		document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
+		document.getElementById("print4").innerHTML = "Therefore Adding No Points";
 		}
 		
 		else if(isInside(path[i], 'left') && isInside(path[i+1], 'left'))
 		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[i+1] ;
 			clippedPath.push(path[i+1]);
 		}
 		
 		else if(isInside(path[i], 'left') && !isInside(path[i+1], 'left'))
 		{//First In second out
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Outside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'left');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection;
 			clippedPath.push(intersection);
 		}
 		
 		else if(!isInside(path[i], 'left') && isInside(path[i+1], 'left'))
 		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Inside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'left');
-
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[i+1];
 			clippedPath.push(intersection);
 			clippedPath.push(path[i+1]);
 		}
 	}
-	//For Adding Last Point And First Point
-	if(!isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
-	{//No point Inside
-	}
-	
-	else if(isInside(path[path.length-1], 'left') && isInside(path[0], 'left'))
-	{//Both Inside 
-		clippedPath.push(path[0]);
-	}
-	
-	else if(isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
-	{//First In second out
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'left');
-		clippedPath.push(intersection);
-	}
-	
-	else if(!isInside(path[path.length-1], 'left') && isInside(path[0], 'left'))
-	{//First Out Second In 
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'left');
-
-		clippedPath.push(intersection);
-		clippedPath.push(path[0]);
-	}
-
-	context.clearRect(0, 0, 500, 500);
-	context.fillStyle = 'white';
-	drawPolygon(path);
-	context.fillStyle = 'lightgreen';
-	drawPolygon(clippedPath);
-	
-}
-//Clip the Top Edge
-function clip_top(path)
-{
-	document.getElementById("print1").innerHTML = "Clipping from top";
-	for(i=0; i<path.length-1; i++)
+	else if(i == path.length-1)
 	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		//For Adding Last Point And First Point
+		drawLine(path[path.length-1],path[0]);
+		if(!isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
+		{//No point Inside
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
+			document.getElementById("print4").innerHTML = "Therefore Adding No Points";
+		}
+		
+		else if(isInside(path[path.length-1], 'left') && isInside(path[0], 'left'))
+		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+		}
+		
+		else if(isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
+		{//First In second out
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'left');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
+			clippedPath.push(intersection);
+		}
+		
+		else if(!isInside(path[path.length-1], 'left') && isInside(path[0], 'left'))
+		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'left');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[0];
+			clippedPath.push(intersection);
+			clippedPath.push(path[0]);
+		}	
+	}
+	else if(i == path.length)
+	{
+		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to left Edge";
+		document.getElementById("print2").innerHTML = " ";
+		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print4").innerHTML = " ";
+		clippedPath.push(clippedPath[0]);
+		context.clearRect(0, 0, 500, 500);
+		context.fillStyle = 'white';
+		drawPolygon(path);
+		context.fillStyle = 'lightgreen';
+		drawPolygon(clippedPath);
+		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to left Edge";
+		document.getElementById("print2").innerHTML = " ";
+		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print4").innerHTML = " ";
+		polygonPath=clippedPath.slice();
+		clippedPath = [];
+		clipEdge++;
+		l=-1;
+	}
+}
+
+//Clip the Top Edge
+function clip_top(path,i)
+{
+	document.getElementById("print1").innerHTML = "Clipping Top Edge";
+	
+	if(i<path.length-1)
+	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		drawLine(path[i],path[i+1]);
 		if(!isInside(path[i], 'top') && !isInside(path[i+1], 'top'))
 		{//No point Inside
+		document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
+		document.getElementById("print4").innerHTML = "Therefore Adding No Points";
 		}
 		
 		else if(isInside(path[i], 'top') && isInside(path[i+1], 'top'))
 		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[i+1] ;
 			clippedPath.push(path[i+1]);
 		}
 		
 		else if(isInside(path[i], 'top') && !isInside(path[i+1], 'top'))
 		{//First In second out
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Outside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'top');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection;
 			clippedPath.push(intersection);
 		}
 		
 		else if(!isInside(path[i], 'top') && isInside(path[i+1], 'top'))
 		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Inside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'top');
-
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[i+1];
 			clippedPath.push(intersection);
 			clippedPath.push(path[i+1]);
 		}
 	}
-	//For Adding Last Point And First Point
-	if(!isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
-	{//No point Inside
-	}
-	
-	else if(isInside(path[path.length-1], 'top') && isInside(path[0], 'top'))
-	{//Both Inside 
-		clippedPath.push(path[0]);
-	}
-	
-	else if(isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
-	{//First In second out
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'top');
-		clippedPath.push(intersection);
-	}
-	
-	else if(!isInside(path[path.length-1], 'top') && isInside(path[0], 'top'))
-	{//First Out Second In 
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'top');
-
-		clippedPath.push(intersection);
-		clippedPath.push(path[0]);
-	}
-
-	clippedPath.push(clippedPath[0]);	
-	context.clearRect(0, 0, 500, 500);
-	context.fillStyle = 'white';
-	drawPolygon(path);
-	context.fillStyle = 'orange';
-	drawPolygon(clippedPath);
-		
-}
-//Clip the Right Edge
-function clip_right(path)
-{
-	document.getElementById("print1").innerHTML = "Clipping from right";
-	for(i=0; i<path.length-1; i++)
+	else if(i == path.length-1)
 	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		//For Adding Last Point And First Point
+		drawLine(path[path.length-1],path[0]);
+		if(!isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
+		{//No point Inside
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
+			document.getElementById("print4").innerHTML = "Therefore Adding No Points";
+		}
+		
+		else if(isInside(path[path.length-1], 'top') && isInside(path[0], 'top'))
+		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+		}
+		
+		else if(isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
+		{//First In second out
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'top');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
+			clippedPath.push(intersection);
+		}
+		
+		else if(!isInside(path[path.length-1], 'top') && isInside(path[0], 'top'))
+		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'top');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[0];
+			clippedPath.push(intersection);
+			clippedPath.push(path[0]);
+		}	
+	}
+	else if(i == path.length)
+	{
+		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Top Edge";
+		document.getElementById("print2").innerHTML = " ";
+		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print4").innerHTML = " ";
+		clippedPath.push(clippedPath[0]);
+		context.clearRect(0, 0, 500, 500);
+		context.fillStyle = 'white';
+		drawPolygon(path);
+		context.fillStyle = 'yellow';
+		drawPolygon(clippedPath);
+		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Top Edge";
+		document.getElementById("print2").innerHTML = " ";
+		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print4").innerHTML = " ";
+		clipEdge++;
+		polygonPath=clippedPath.slice();
+		clippedPath = [];
+		l=-1;
+	}	
+}
+
+//Clip the Right Edge
+function clip_right(path,i)
+{
+	document.getElementById("print1").innerHTML = "Clipping Right Edge";
+	
+	if(i<path.length-1)
+	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		drawLine(path[i],path[i+1]);
 		if(!isInside(path[i], 'right') && !isInside(path[i+1], 'right'))
 		{//No point Inside
+		document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
+		document.getElementById("print4").innerHTML = "Therefore Adding No Points";
 		}
 		
 		else if(isInside(path[i], 'right') && isInside(path[i+1], 'right'))
 		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[i+1] ;
 			clippedPath.push(path[i+1]);
 		}
 		
 		else if(isInside(path[i], 'right') && !isInside(path[i+1], 'right'))
 		{//First In second out
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Outside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'right');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection;
 			clippedPath.push(intersection);
 		}
 		
 		else if(!isInside(path[i], 'right') && isInside(path[i+1], 'right'))
 		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Inside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'right');
-
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[i+1];
 			clippedPath.push(intersection);
 			clippedPath.push(path[i+1]);
 		}
 	}
-	//For Adding Last Point And First Point
-	if(!isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
-	{//No point Inside
-	}
-	
-	else if(isInside(path[path.length-1], 'right') && isInside(path[0], 'right'))
-	{//Both Inside 
-		clippedPath.push(path[0]);
-	}
-	
-	else if(isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
-	{//First In second out
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'right');
-		clippedPath.push(intersection);
-	}
-	
-	else if(!isInside(path[path.length-1], 'right') && isInside(path[0], 'right'))
-	{//First Out Second In 
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'right');
-
-		clippedPath.push(intersection);
-		clippedPath.push(path[0]);
-	}
-
-	clippedPath.push(clippedPath[0]);
-	context.clearRect(0, 0, 500, 500);	
-	context.fillStyle = 'white';
-	drawPolygon(path);
-	context.fillStyle = 'yellow';
-	drawPolygon(clippedPath);
-			
-}
-//Clip the Bottom Edge
-function clip_down(path)
-{
-	document.getElementById("print1").innerHTML = "Clipping from down";
-	for(i=0; i<path.length-1; i++)
+	else if(i == path.length-1)
 	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		//For Adding Last Point And First Point
+		drawLine(path[path.length-1],path[0]);
+		if(!isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
+		{//No point Inside
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
+			document.getElementById("print4").innerHTML = "Therefore Adding No Points";
+		}
+		
+		else if(isInside(path[path.length-1], 'right') && isInside(path[0], 'right'))
+		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+		}
+		
+		else if(isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
+		{//First In second out
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'left');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
+			clippedPath.push(intersection);
+		}
+		
+		else if(!isInside(path[path.length-1], 'right') && isInside(path[0], 'right'))
+		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'right');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[0];
+			clippedPath.push(intersection);
+			clippedPath.push(path[0]);
+		}	
+	}
+	else if(i == path.length)
+	{
+		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Right Edge";
+		document.getElementById("print2").innerHTML = " ";
+		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print4").innerHTML = " ";
+		clippedPath.push(clippedPath[0]);
+		context.clearRect(0, 0, 500, 500);
+		context.fillStyle = 'white';
+		drawPolygon(path);
+		context.fillStyle = 'green';
+		drawPolygon(clippedPath);
+		clipEdge++;
+		polygonPath=clippedPath.slice();
+		clippedPath = [];
+		l=-1;
+	}		
+}
+
+//Clip the Bottom Edge
+function clip_down(path,i)
+{
+	document.getElementById("print1").innerHTML = "Clipping Down Edge";
+	
+	if(i<path.length-1)
+	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		drawLine(path[i],path[i+1]);
 		if(!isInside(path[i], 'down') && !isInside(path[i+1], 'down'))
 		{//No point Inside
+		document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
+		document.getElementById("print4").innerHTML = "Therefore Adding No Points";
 		}
 		
 		else if(isInside(path[i], 'down') && isInside(path[i+1], 'down'))
 		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[i+1] ;
 			clippedPath.push(path[i+1]);
 		}
 		
 		else if(isInside(path[i], 'down') && !isInside(path[i+1], 'down'))
 		{//First In second out
+			document.getElementById("print3").innerHTML = path[i] + " is Inside & " + path[i+1] +" is Outside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'down');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection;
 			clippedPath.push(intersection);
 		}
 		
 		else if(!isInside(path[i], 'down') && isInside(path[i+1], 'down'))
 		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[i] + " is Outside & " + path[i+1] +" is Inside";
 			endpoints = [path[i], path[i+1]];
 			intersection = find_intersection(endpoints, 'down');
-
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[i+1];
 			clippedPath.push(intersection);
 			clippedPath.push(path[i+1]);
 		}
 	}
-	//For Adding Last Point And First Point
-	if(!isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
-	{//No point Inside
+	else if(i == path.length-1)
+	{
+		document.getElementById("print2").innerHTML = "With respect to line "+ (i+1);
+		//For Adding Last Point And First Point
+		drawLine(path[path.length-1],path[0]);
+		if(!isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
+		{//No point Inside
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
+			document.getElementById("print4").innerHTML = "Therefore Adding No Points";
+		}
+		
+		else if(isInside(path[path.length-1], 'down') && isInside(path[0], 'down'))
+		{//Both Inside 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			document.getElementById("print4").innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+		}
+		
+		else if(isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
+		{//First In second out
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'down');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
+			clippedPath.push(intersection);
+		}
+		
+		else if(!isInside(path[path.length-1], 'down') && isInside(path[0], 'down'))
+		{//First Out Second In 
+			document.getElementById("print3").innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Inside";
+			endpoints = [path[path.length-1], path[0]];
+			intersection = find_intersection(endpoints, 'down');
+			document.getElementById("print4").innerHTML = "Therefore Adding Intersection Point - "+ intersection +" & Second Point - " + path[0];
+			clippedPath.push(intersection);
+			clippedPath.push(path[0]);
+		}	
 	}
-	
-	else if(isInside(path[path.length-1], 'down') && isInside(path[0], 'down'))
-	{//Both Inside 
-		clippedPath.push(path[0]);
+	else if(i == path.length)
+	{
+		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Right Edge";
+		document.getElementById("print2").innerHTML = " ";
+		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print4").innerHTML = " ";
+		clippedPath.push(clippedPath[0]);
+		context.clearRect(0, 0, 500, 500);
+		context.fillStyle = 'white';
+		drawPolygon(path);
+		context.fillStyle = 'blue';
+		drawPolygon(clippedPath);
+		clipEdge++;
+		polygonPath=clippedPath.slice();
+		clippedPath = [];
+		l=-1;
 	}
-	
-	else if(isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
-	{//First In second out
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'down');
-		clippedPath.push(intersection);
-	}
-	
-	else if(!isInside(path[path.length-1], 'down') && isInside(path[0], 'down'))
-	{//First Out Second In 
-		endpoints = [path[path.length-1], path[0]];
-		intersection = find_intersection(endpoints, 'down');
-
-		clippedPath.push(intersection);
-		clippedPath.push(path[0]);
-	}
-	clippedPath.push(clippedPath[0]);
-	context.clearRect(0, 0, 500, 500);	
-	context.fillStyle = 'white';
-	drawPolygon(path);
-	context.fillStyle = 'blue';
-	drawPolygon(clippedPath);
 }
+
 //find the Intersection
 function find_intersection(endpoints, edge)
 {
@@ -447,7 +584,7 @@ function find_intersection(endpoints, edge)
 	return intersection;
 }	
 
-//returns true if the point is inside with respect to a particular edge
+//returns true if the point is inside with respect to a particular edge else false
 function isInside(point, orientation)
 {
 	x = point[0];
@@ -488,6 +625,8 @@ function isInside(point, orientation)
 //Draws the Polygon
 function drawPolygon(path)
 {
+	context.clearRect(0,0,500,500);
+	square_draw();
 	context.beginPath();
 	
 	context.moveTo(path[0][0], path[0][1]);
@@ -496,7 +635,20 @@ function drawPolygon(path)
 		context.lineTo(path[i][0], path[i][1]);
 	}
 	context.fill();
-	square_draw();
-	square_draw();
-
+}
+//Draws Line For Each Iteration
+function drawLine(point1,point2)
+{
+	/*var gradient = context.createLinearGradient(0, 0, 170, 0);
+	gradient.addColorStop("0", "magenta");
+	gradient.addColorStop("0.5", "blue");
+	gradient.addColorStop("1.0", "red");
+	*/
+	
+	context.beginPath();
+	context.moveTo(point1[0],point1[1]);
+	context.lineTo(point2[0],point2[1]);
+	context.strokeStyle = 'blue';
+	context.lineWidth = 2;
+	context.stroke();
 }
