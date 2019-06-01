@@ -1,0 +1,13 @@
+Manual For Clipping Polygon Experiment
+
+
+
+->The experiment contains a clipping window which represents the screen to which the polygon is clipped to.
+
+->The User can Enter the coordinates of the clipping Window(Rectangle) and the polygon to be clipped 
+
+->The Algorithm Followed Is Sutherland-Hodgman therefore it only works for conver clipping windows 
+
+->On clicking "Cip Edge" button each time the polygon will be clipped to its respective edge i.e left-top-right-bottom respectively
+
+->To perform the Experiment Click on experiment.html page and it will work properly on it
