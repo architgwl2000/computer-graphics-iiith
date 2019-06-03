@@ -137,6 +137,8 @@ function clip()
 				document.getElementById("print2").innerHTML = polygonPath;
 				document.getElementById("print3").innerHTML = "New Sides - " + (polygonPath.length-1);
 				document.getElementById("print4").innerHTML = "Experiment Ends Here";
+				document.getElementById("print5").innerHTML = "To Perform Experiment Again ";
+				document.getElementById("print6").innerHTML = "Please Close the Current Window and Reopen the page";
 				break;
 	}
 }
