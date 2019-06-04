@@ -1,0 +1,6 @@
+Add This Line to the Main Html Page div where the Experiment is To be Performed and this will Connect the exp1.html with the main page and the experiment will run in the window of the particular main page.
+
+
+
+
+<iframe src="exp1.html" height="700" width="1800"></iframe>
