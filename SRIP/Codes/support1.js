@@ -72,7 +72,7 @@ function square_draw()
 }
 
 //Function For Converting the polygon text coordinates to the coordinates stored in array	
-function poly_draw()
+function initial()
 {
 
 	var x=0,y=0;
@@ -102,12 +102,16 @@ function poly_draw()
 }
 
 //Function Clipping executes On Clicking Clip Everytime
-function clipping()
+function next_iteration()
 {
 	clip();
 	l++;
 }
-
+//Previous Iteration
+function prev_iteration()
+{
+	
+}
 //Function To clip the edge It gets called by clipping() function and it clips the respective edge
 function clip()
 {
@@ -224,7 +228,7 @@ function clip_left(path,i)
 	{
 		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to left Edge";
 		document.getElementById("print2").innerHTML = " ";
-		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print3").innerHTML = " ";
 		document.getElementById("print4").innerHTML = " ";
 		clippedPath.push(clippedPath[0]);
 		context.clearRect(0, 0, 500, 500);
@@ -234,7 +238,7 @@ function clip_left(path,i)
 		drawPolygon(clippedPath);
 		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to left Edge";
 		document.getElementById("print2").innerHTML = " ";
-		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print3").innerHTML = " ";
 		document.getElementById("print4").innerHTML = " ";
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
@@ -324,7 +328,7 @@ function clip_top(path,i)
 	{
 		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Top Edge";
 		document.getElementById("print2").innerHTML = " ";
-		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print3").innerHTML = " ";
 		document.getElementById("print4").innerHTML = " ";
 		clippedPath.push(clippedPath[0]);
 		context.clearRect(0, 0, 500, 500);
@@ -334,7 +338,7 @@ function clip_top(path,i)
 		drawPolygon(clippedPath);
 		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Top Edge";
 		document.getElementById("print2").innerHTML = " ";
-		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print3").innerHTML = " ";
 		document.getElementById("print4").innerHTML = " ";
 		clipEdge++;
 		polygonPath=clippedPath.slice();
@@ -424,7 +428,7 @@ function clip_right(path,i)
 	{
 		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Right Edge";
 		document.getElementById("print2").innerHTML = " ";
-		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print3").innerHTML = " ";
 		document.getElementById("print4").innerHTML = " ";
 		clippedPath.push(clippedPath[0]);
 		context.clearRect(0, 0, 500, 500);
@@ -520,7 +524,7 @@ function clip_down(path,i)
 	{
 		document.getElementById("print1").innerHTML = "Clipped All Sides With respect to Right Edge";
 		document.getElementById("print2").innerHTML = " ";
-		document.getElementById("print3").innerHTMl = " ";
+		document.getElementById("print3").innerHTML = " ";
 		document.getElementById("print4").innerHTML = " ";
 		clippedPath.push(clippedPath[0]);
 		context.clearRect(0, 0, 500, 500);

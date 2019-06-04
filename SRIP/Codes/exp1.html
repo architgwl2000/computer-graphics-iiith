@@ -20,15 +20,16 @@
 			<input type="number" id='y2s' value="300">y2 <br><br>
 			Enter the sides of the Polygon(max 10) <emsp></emsp><!-- Entereing the Co-ordinates of the Polygon -->
 			<input type="number" id="polyside" value='4'><br>
-			Enter The Co-ordinates in clockwise direction <br>
+			Enter The Co-ordinates of the Polygon in Sequential order <br>
 			Max value is (500,500) <br>
-			<textarea id="polyco" rows="2" cols="50">50 200,200 50,350 200,200 350,</textarea><br>
+			<textarea id="polyco" rows="2" cols="50">50 200,200 50,350 200,200 350,</textarea>
 			<button type="button" onclick="location.reload(false);";>Update </button><br><!-- Updates The Values of the Polygon-->
-			<button type="button" onclick="poly_draw()"> Okay </button><br> <!-- Calling the Poly_draw() function which will print the polygon along with the rectangle in which it is to be clipped-->
-			<button type="button" onclick="clipping()"> Clip Edge </button><br><!-- This Button will clip the egdes one by one-->  
+			<button type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
+			<button type="button" onclick="prev_iteration()"> Previous Iteration </button><!-- This Button will clip the egdes one by one--> 
+			<button type="button" onclick="next_iteration()"> Next Iteration </button><br><!-- This Button will clip the egdes one by one-->  
 		</form>
 
-		<p id="print1">		Note - Directly Click Okay To Start With default Values else Update the values And Click on Update Button </p>
+		<p id="print1"></p>
 		<p id="print2"></p>
 		<p id="print3"></p>
 		<p id="print4"></p>
@@ -42,7 +43,7 @@
 
 	</div>
 	<div class="column" id="column2">
-		<canvas id="myCanvas" width="500" height="500" style="border:1px solid #c3c3c3;">
+		<canvas id="myCanvas" width="500" height="500" style="border:2px solid #c3c3c3;">
 		Your browser does not support the canvas element.PLEASE CHECK THE BROWSER AND UPDATE IT
 		</canvas>
 
