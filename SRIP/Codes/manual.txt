@@ -1,15 +1,84 @@
 Manual For Clipping Polygon Experiment
 
-
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+General
 
 ->The experiment contains a clipping window which represents the screen to which the polygon is clipped to.
 
 ->The User can Enter the coordinates of the clipping Window(Rectangle) and the polygon to be clipped 
 
-->The Algorithm Followed Is Sutherland-Hodgman therefore it only works for conver clipping windows 
+->The Algorithm Followed Is Sutherland-Hodgman therefore it only works for convex clipping windows 
 
-->On clicking "Cip Edge" button each time the polygon will be clipped to its respective edge i.e left-top-right-bottom respectively
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HTMl Page
 
-->At the End It will Give THe Coordinates Of the New Clipped Rectangle
+Contains Two Columns 
+1st - User Interactive and it gives all the Information, Inputs and Outputs and etc.
+2nd - It contains the canvas Element which displays the Polygon and the Rectangle for Clipping
 
-->To perform the Experiment Click on Experiment.html page and it will work properly on it
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Buttons
+
+
+-> Update Button - Whenever the button is clicked it refreshes the page which in turn updates all the values of the polygon and Square.
+
+->Start Experiment Button - When the button is clicked it converts the values given in textarea of the page to the coordinates of the polygon which are used by javascript file support1.js
+
+->Previous Iteration Button - This Button will take one edge back and the removes all the coordinates which was calculated after that edge therefore it takes back one full edge for clipping.
+
+->Next Iteartion - This Button is the button which is used to perform the iteration one by one and it performs clipping and all the calculations.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Canvas 
+
+->The Canvas Element is of 500*500 units 
+
+->It Has been set to 2d display as required by the experiment 
+
+-> It is Used for Displaying the Polygon to be clipped and the clipping window
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Css File - support1.css
+
+->Contains Style of the Canvas, Teaxt area and other specifications 
+re
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+javascript file - support1.js
+
+->Contains 13 functions and all the values given by the user
+
+-> Here is the brief description of the functions 
+
+	- initial() - this Function converts the coodrinates into usable form it is connected with Start Experiment button.
+
+	- next_iteration() - this function is connected with next iteration button, function gets triggered whenever the button is clicked and it updates the value of l and calls the clip function.
+
+	- prev_iteration() - this function is connected with prev iteration button, function gets trigggered whenever the button is clicked and it upadates the value of polygonPath by using the variable
+				allPath and therefore brings back one edge and makes it perform the clipping one more time. It also Deletes the values calculated after a certain edge.
+
+	- clip() - it is called by next_iteration function, it has a switch case that perform the clipping of the polygon  w.r.t. a particular side and calls the functions respectively.
+
+	- clip_left(), clip_right(), clip_down(), clip_top() - these functions do the same work but with different orientations and are called by the clip function for clipping the polygon w.r.t. a
+				particular side respectively.
+
+	- find_intersection() - takes two line points and finds the intersection point between the two.
+
+	- isInside() - takes a point and checks whether the point lies inside or outside the particular region.
+
+	- drawPolygon() - for displaying the polygon in the canvas.
+
+	- drawSquare() - for displaying the sqaure (clipping window) in the canvas.
+
+	- drawLine() - for displaying the lines during iterations in the canvas.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+readme.txt
+
+->General file gives track of files used for this experiment
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+to_add_in_the_main_page.txt
+
+-> this file contains the iframes tag for the main html page where the experiment can be linked in the partiuclar division
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
