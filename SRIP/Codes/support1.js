@@ -5,7 +5,6 @@ var context = c.getContext("2d");
 //Google "html5 compositing"
 context.globalCompositeOperation = 'source-over';
 
-
 //Getting All the Inputs Given by the User 
 var x1s=document.getElementById("x1s").value;
 var x2s=document.getElementById("x2s").value;
@@ -39,7 +38,7 @@ var clippedPath=[];
 //Used In Clip Fuction as SwtichVariable for Clipping Squencially left-top-right-bottom
 var clipEdge=1;
 
-//Used For Every Iteration of the Polygon with respect to a single side 
+//Used For Every Iteration of the Polygon Clipping  a single side 
 var l=0;
 
 //For Printing The Values
@@ -80,8 +79,6 @@ function initial()
 			polygonPath.push([coordinates[i][0], coordinates[i][1]]);
 	}
 	allPath.push(polygonPath);
-	drawSquare();
-	context.fillStyle = 'red';
 	drawPolygon(polygonPath);
 }
 
@@ -104,31 +101,35 @@ function prev_iteration()
 	p8.innerHTML="";
 	p9.innerHTML="";
 	p10.innerHTML="";
-
 	l=0;
+	clippedPath=[];
 	if(clipEdge == 1)
 	{
 		polygonPath= allPath[0].slice();
 	}
 	else if(clipEdge == 2)
 	{
-		polygonPath= allPath[1].slice();
+		polygonPath= allPath[0].slice();
 		clipEdge = 1;
+		allPath.splice(1,);
 	}
 	else if(clipEdge == 3)
 	{
-		polygonPath= allPath[2].slice();
+		polygonPath= allPath[1].slice();
 		clipEdge = 2;
+		allPath.splice(2,)
 	}
 	else if(clipEdge == 4)
 	{
-		polygonPath= allPath[3].slice();
+		polygonPath= allPath[2].slice();
 		clipEdge = 3;
+		allPath.splice(3,);
 	}
 	else if(clipEdge == 5)
 	{
-		polygonPath = allPath[4].slice();
+		polygonPath = allPath[3].slice();
 		clipEdge = 4;
+		allPath.splice(4,);
 	}
 	else
 	{
@@ -158,15 +159,13 @@ function clip()
 				break;
 		
 		case 5: 
-				context.clearRect(0, 0, 500, 500);
-				context.fillStyle = 'red';
 				drawPolygon(polygonPath);
 				p1.innerHTML = "Coordinates Of New Polygon Are";
 				p2.innerHTML = polygonPath;
-				p3.innerHTML = "New Sides - " + (polygonPath.length-1);
+				p3.innerHTML = "New Sides - " + (polygonPath.length);
 				p4.innerHTML = "Experiment Ends Here";
-				p5.innerHTML = "To Perform Experiment Again ";
-				p6.innerHTML = "Please Close the Current Window and Reopen the page";
+				p5.innerHTML = " ";
+				p6.innerHTML = "";
 				break;
 	}
 }
@@ -174,16 +173,16 @@ function clip()
 //Clip the Left Edge
 function clip_left(path,i)
 {
-	p1.innerHTML = "Clipping Left Edge";
+	p2.innerHTML = "Against Left Side";
 	
 	if(i>=0 && i<path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
-		drawLine(path[i],path[i+1]);
+		p1.innerHTML = "Clipping  line joining ("+ path[i] + ") & (" + path[i+1] + ")";
+		drawLine(path[i],path[i+1],'left');
 		if(!isInside(path[i], 'left') && !isInside(path[i+1], 'left'))
 		{//No point Inside
-		p3.innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
-		p4.innerHTML = "Therefore Adding No Points";
+			p3.innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
+			p4.innerHTML = "Therefore Adding No Points";
 		}
 		
 		else if(isInside(path[i], 'left') && isInside(path[i+1], 'left'))
@@ -214,9 +213,9 @@ function clip_left(path,i)
 	}
 	else if(i == path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
+		p1.innerHTML = "Clipping  line joining ("+ path[path.length-1] + ") & (" + path[0] + ")";
 		//For Adding Last Point And First Point
-		drawLine(path[path.length-1],path[0]);
+		drawLine(path[path.length-1],path[0],'left');
 		if(!isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
 		{//No point Inside
 			p3.innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
@@ -227,6 +226,7 @@ function clip_left(path,i)
 		{//Both Inside 
 			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
 			p4.innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+			clippedPath.push(path[0]);
 		}
 		
 		else if(isInside(path[path.length-1], 'left') && !isInside(path[0], 'left'))
@@ -250,21 +250,13 @@ function clip_left(path,i)
 	}
 	else if(i == path.length)
 	{
-		p1.innerHTML = "Clipped All Sides With respect to left Edge";
+		p1.innerHTML = "Clipped Polygon w.r.t. left side";
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
+		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
-		clippedPath.push(clippedPath[0]);
-		context.clearRect(0, 0, 500, 500);
-		context.fillStyle = 'white';
-		drawPolygon(path);
-		context.fillStyle = 'lightgreen';
 		drawPolygon(clippedPath);
-		p1.innerHTML = "Clipped All Sides With respect to left Edge";
-		p2.innerHTML = " ";
-		p3.innerHTML = " ";
-		p4.innerHTML = " ";
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
 		clipEdge++;
@@ -275,12 +267,12 @@ function clip_left(path,i)
 //Clip the Top Edge
 function clip_top(path,i)
 {
-	p1.innerHTML = "Clipping Top Edge";
+	p2.innerHTML = "Against Top Side";
 	
 	if(i<path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
-		drawLine(path[i],path[i+1]);
+		p1.innerHTML = "Clipping  line joining ("+ path[i] + ") & (" + path[i+1] + ")";
+		drawLine(path[i],path[i+1],'top');
 		if(!isInside(path[i], 'top') && !isInside(path[i+1], 'top'))
 		{//No point Inside
 		p3.innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
@@ -315,9 +307,9 @@ function clip_top(path,i)
 	}
 	else if(i == path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
+		p1.innerHTML = "Clipping  line joining ("+ path[path.length-1] + ") & (" + path[0] + ")";
 		//For Adding Last Point And First Point
-		drawLine(path[path.length-1],path[0]);
+		drawLine(path[path.length-1],path[0],'top');
 		if(!isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
 		{//No point Inside
 			p3.innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
@@ -328,6 +320,7 @@ function clip_top(path,i)
 		{//Both Inside 
 			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
 			p4.innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+			clippedPath.push(path[0]);
 		}
 		
 		else if(isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
@@ -351,21 +344,14 @@ function clip_top(path,i)
 	}
 	else if(i == path.length)
 	{
-		p1.innerHTML = "Clipped All Sides With respect to Top Edge";
+		p1.innerHTML = "Clipped Polygon w.r.t. Top Side";
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
+		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
-		clippedPath.push(clippedPath[0]);
 		context.clearRect(0, 0, 500, 500);
-		context.fillStyle = 'white';
-		drawPolygon(path);
-		context.fillStyle = 'yellow';
 		drawPolygon(clippedPath);
-		p1.innerHTML = "Clipped All Sides With respect to Top Edge";
-		p2.innerHTML = " ";
-		p3.innerHTML = " ";
-		p4.innerHTML = " ";
 		clipEdge++;
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
@@ -376,12 +362,12 @@ function clip_top(path,i)
 //Clip the Right Edge
 function clip_right(path,i)
 {
-	p1.innerHTML = "Clipping Right Edge";
+	p2.innerHTML = "Against Right Side";
 	
 	if(i<path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
-		drawLine(path[i],path[i+1]);
+		p1.innerHTML = "Clipping  line joining ("+ path[i] + ") & (" + path[i+1] + ")";
+		drawLine(path[i],path[i+1],'right');
 		if(!isInside(path[i], 'right') && !isInside(path[i+1], 'right'))
 		{//No point Inside
 		p3.innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
@@ -416,9 +402,9 @@ function clip_right(path,i)
 	}
 	else if(i == path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
+		p1.innerHTML = "Clipping  line joining ("+ path[path.length-1] + ") & (" + path[0] + ")";
 		//For Adding Last Point And First Point
-		drawLine(path[path.length-1],path[0]);
+		drawLine(path[path.length-1],path[0],'right');
 		if(!isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
 		{//No point Inside
 			p3.innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
@@ -429,6 +415,7 @@ function clip_right(path,i)
 		{//Both Inside 
 			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
 			p4.innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+			clippedPath.push(path[0]);
 		}
 		
 		else if(isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
@@ -452,16 +439,12 @@ function clip_right(path,i)
 	}
 	else if(i == path.length)
 	{
-		p1.innerHTML = "Clipped All Sides With respect to Right Edge";
+		p1.innerHTML = "Clipped Polygon w.r.t. Right Side";
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
+		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
-		clippedPath.push(clippedPath[0]);
-		context.clearRect(0, 0, 500, 500);
-		context.fillStyle = 'white';
-		drawPolygon(path);
-		context.fillStyle = 'green';
 		drawPolygon(clippedPath);
 		clipEdge++;
 		polygonPath=clippedPath.slice();
@@ -473,12 +456,12 @@ function clip_right(path,i)
 //Clip the Bottom Edge
 function clip_down(path,i)
 {
-	p1.innerHTML = "Clipping Down Edge";
+	p2.innerHTML = "Against Bottom Side";
 	
 	if(i<path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
-		drawLine(path[i],path[i+1]);
+		p1.innerHTML = "Clipping  line joining ("+ path[i] + ") & (" + path[i+1] + ")";
+		drawLine(path[i],path[i+1],'down');
 		if(!isInside(path[i], 'down') && !isInside(path[i+1], 'down'))
 		{//No point Inside
 		p3.innerHTML = path[i] + " is Outside & " + path[i+1] +" is Outside";
@@ -513,9 +496,9 @@ function clip_down(path,i)
 	}
 	else if(i == path.length-1)
 	{
-		p2.innerHTML = "With respect to line "+ (i+1);
+		p1.innerHTML = "Clipping  line joining ("+ path[path.length-1] + ") & (" + path[0] + ")";
 		//For Adding Last Point And First Point
-		drawLine(path[path.length-1],path[0]);
+		drawLine(path[path.length-1],path[0],'down');
 		if(!isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
 		{//No point Inside
 			p3.innerHTML = path[path.length-1] + " is Outside & " + path[0] +" is Outside";
@@ -526,6 +509,7 @@ function clip_down(path,i)
 		{//Both Inside 
 			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
 			p4.innerHTML = "Therefore Adding Second Point - "+ path[0] ;
+			clippedPath.push(path[0]);
 		}
 		
 		else if(isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
@@ -549,16 +533,12 @@ function clip_down(path,i)
 	}
 	else if(i == path.length)
 	{
-		p1.innerHTML = "Clipped All Sides With respect to Right Edge";
+		p1.innerHTML = "Clipped Polygon w.r.t. Bottom Side";
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
+		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
-		clippedPath.push(clippedPath[0]);
-		context.clearRect(0, 0, 500, 500);
-		context.fillStyle = 'white';
-		drawPolygon(path);
-		context.fillStyle = 'blue';
 		drawPolygon(clippedPath);
 		clipEdge++;
 		polygonPath=clippedPath.slice();
@@ -607,18 +587,26 @@ function find_intersection(endpoints, edge)
 	{
 		intersection[0] = (ymin - c)/m;
 		intersection[1] = ymin;
+		if(x1 == x2)
+		{
+			intersection[0]=x1;
+		}
 	}
 	else if(edge == 'down')
 	{
 		intersection[0] = (ymax - c)/m;
 		intersection[1] = ymax;
+		if(x1 == x2)
+		{
+			intersection[0]=x1;
+		}
 	}
 	intersection[0]=Math.round(intersection[0]);
 	intersection[1]=Math.round(intersection[1]);
 	return intersection;
 }	
 
-//returns true if the point is inside with respect to a particular edge else false
+//returns true if the point is inside Clipping  a particular edge else false
 function isInside(point, orientation)
 {
 	x = point[0];
@@ -662,18 +650,24 @@ function drawPolygon(path)
 	context.clearRect(0,0,500,500);
 	drawSquare();
 	context.beginPath();
-	
 	context.moveTo(path[0][0], path[0][1]);
 	for(i=1; i<path.length; i++)
 	{
 		context.lineTo(path[i][0], path[i][1]);
 	}
-	context.fill();
+	context.lineTo(path[0][0], path[0][1]);
+	context.lineWidth = 3;
+	context.strokeStyle = 'black';
+	if(clipEdge >=5)
+		context.strokeStyle= 'green';
+	context.stroke();
+
 }
 //Draws the Square
 function drawSquare()  
 {
 	context.strokeStyle = 'black' ;
+	context.lineWidth = 2;
 	//drawing line 1
 	context.beginPath();
 	context.moveTo(ax, ay);
@@ -699,18 +693,37 @@ function drawSquare()
 	context.stroke();
 }
 //Draws Line For Each Iteration
-function drawLine(point1,point2)
+function drawLine(point1,point2,orientation)
 {
-	/*var gradient = context.createLinearGradient(0, 0, 170, 0);
-	gradient.addColorStop("0", "magenta");
-	gradient.addColorStop("0.5", "blue");
-	gradient.addColorStop("1.0", "red");
-	*/
-	
+	context.beginPath();
+	if(orientation == 'left')
+	{
+		context.moveTo(ax,ay);
+		context.lineTo(dx,dy);
+	}
+	else if(orientation == 'top')
+	{
+		context.moveTo(ax,ay);
+		context.lineTo(bx,by);
+	}
+	else if(orientation == 'right')
+	{
+		context.moveTo(bx,by);
+		context.lineTo(cx,cy);
+	}
+	else if(orientation == 'down')
+	{
+		context.moveTo(cx,cy);
+		context.lineTo(dx,dy);
+	}
+	context.lineWidth = 2;
+	context.strokeStyle = 'red';
+	context.stroke();
+
 	context.beginPath();
 	context.moveTo(point1[0],point1[1]);
 	context.lineTo(point2[0],point2[1]);
-	context.strokeStyle = 'blue';
 	context.lineWidth = 2;
+	context.strokeStyle = 'yellow';
 	context.stroke();
 }
