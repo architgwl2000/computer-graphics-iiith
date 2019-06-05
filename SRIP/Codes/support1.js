@@ -51,7 +51,7 @@ var p6=document.getElementById("print6");
 var p7=document.getElementById("print7");
 var p8=document.getElementById("print8");
 var p9=document.getElementById("print9");
-var p10=document.getElementById("print10");
+var p0=document.getElementById("print0");
 
 //Function For Converting the polygon text coordinates to the coordinates stored in array	
 function initial()
@@ -80,6 +80,7 @@ function initial()
 	}
 	allPath.push(polygonPath);
 	drawPolygon(polygonPath);
+	p0.innerHTML = "Clipping Rectangle Coordinates - ["+ax+","+ay+"] ["+bx+","+by+"] ["+cx+","+cy+"] ["+dx+","+dy+"]";
 }
 
 //Function Clipping executes On Clicking Clip Everytime
@@ -100,7 +101,6 @@ function prev_iteration()
 	p7.innerHTML="";
 	p8.innerHTML="";
 	p9.innerHTML="";
-	p10.innerHTML="";
 	l=0;
 	clippedPath=[];
 	if(clipEdge == 1)
