@@ -80,7 +80,6 @@ function initial()
 	}
 	allPath.push(polygonPath);
 	drawPolygon(polygonPath);
-	p0.innerHTML = "Clipping Rectangle Coordinates - ["+ax+","+ay+"] ["+bx+","+by+"] ["+cx+","+cy+"] ["+dx+","+dy+"]";
 }
 
 //Function Clipping executes On Clicking Clip Everytime
@@ -160,7 +159,7 @@ function clip()
 		
 		case 5: 
 				drawPolygon(polygonPath);
-				p1.innerHTML = "Coordinates Of New Polygon Are";
+				p1.innerHTML = "New Coordinates Of New Polygon Are";
 				p2.innerHTML = polygonPath;
 				p3.innerHTML = "New Sides - " + (polygonPath.length);
 				p4.innerHTML = "Experiment Ends Here";
@@ -325,7 +324,7 @@ function clip_top(path,i)
 		
 		else if(isInside(path[path.length-1], 'top') && !isInside(path[0], 'top'))
 		{//First In second out
-			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Outside";
 			endpoints = [path[path.length-1], path[0]];
 			intersection = find_intersection(endpoints, 'top');
 			p4.innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
@@ -420,9 +419,9 @@ function clip_right(path,i)
 		
 		else if(isInside(path[path.length-1], 'right') && !isInside(path[0], 'right'))
 		{//First In second out
-			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Outside";
 			endpoints = [path[path.length-1], path[0]];
-			intersection = find_intersection(endpoints, 'left');
+			intersection = find_intersection(endpoints, 'right');
 			p4.innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
 			clippedPath.push(intersection);
 		}
@@ -514,7 +513,7 @@ function clip_down(path,i)
 		
 		else if(isInside(path[path.length-1], 'down') && !isInside(path[0], 'down'))
 		{//First In second out
-			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Inside";
+			p3.innerHTML = path[path.length-1] + " is Inside & " + path[0] +" is Outside";
 			endpoints = [path[path.length-1], path[0]];
 			intersection = find_intersection(endpoints, 'down');
 			p4.innerHTML = "Therefore Adding Intersection Point - "+ intersection ;
@@ -647,13 +646,18 @@ function isInside(point, orientation)
 //Draws the Polygon
 function drawPolygon(path)
 {
-	context.clearRect(0,0,500,500);
+	context.clearRect(0,0,500,550);
 	drawSquare();
 	context.beginPath();
 	context.moveTo(path[0][0], path[0][1]);
+	context.font="15px Arial";
+	context.fillText("Clipping Rectangle Coordinates - ["+ax+","+ay+"] ["+bx+","+by+"] ["+cx+","+cy+"] ["+dx+","+dy+"]",10,520);
+	context.fillText("",10,540);
+	context.fillText("("+path[0][0]+","+path[0][1]+")",path[0][0]+2,path[0][1]+2);
 	for(i=1; i<path.length; i++)
 	{
 		context.lineTo(path[i][0], path[i][1]);
+		context.fillText("("+path[i][0]+","+path[i][1]+")",path[i][0]+2,path[i][1]+2);
 	}
 	context.lineTo(path[0][0], path[0][1]);
 	context.lineWidth = 3;
@@ -661,7 +665,6 @@ function drawPolygon(path)
 	if(clipEdge >=5)
 		context.strokeStyle= 'green';
 	context.stroke();
-
 }
 //Draws the Square
 function drawSquare()  
