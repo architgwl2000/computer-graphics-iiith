@@ -6,30 +6,14 @@ var context = c.getContext("2d");
 context.globalCompositeOperation = 'source-over';
 
 //Getting All the Inputs Given by the User 
-var x1s=document.getElementById("x1s").value;
-var x2s=document.getElementById("x2s").value;
-var y1s=document.getElementById("y1s").value;
-var y2s=document.getElementById("y2s").value;
-var polyco = document.getElementById("polyco").value;
-var polyside=document.getElementById("polyside").value;
-var polyco_length=polyco.length;
+var x1s,x2s,y1s,y2s,polyco,polyside,polyco_length;
 var coordinates=[[50,200],[200,50],[350,200],[200,350],[360,150],[320,290],[250,380],[200,420],[150,250],[100,210]];
 
 //Coordinates of the Rectangle
-var ax = x1s;
-var ay = y1s;
-var bx = x2s;
-var by = y1s;
-var cx = x2s;
-var cy = y2s;
-var dx = x1s;
-var dy = y2s;
+var ax,ay,bx,by,cx,cy,dx,dy;
 
 //Min and Max Coordinates Of the rectangle
-var xmin = ax;
-var xmax = cx;
-var ymin = ay;
-var ymax = cy;
+var xmin,xmax,ymax,ymin;
 
 //Array Of Saving the Coordinates Of the Polygon All, Current And Clipped
 var allPath=[];
@@ -53,17 +37,64 @@ var p8=document.getElementById("print8");
 var p9=document.getElementById("print9");
 var p0=document.getElementById("print0");
 
+//Function To Update The Default values And Overwrite the Polygon values
+function update() 
+{
+  	//Getting All the Inputs Given by the User 
+	x1s=document.getElementById("x1s").value;
+	x2s=document.getElementById("x2s").value;
+	y1s=document.getElementById("y1s").value;
+	y2s=document.getElementById("y2s").value;
+	polyco = document.getElementById("polyco").value;
+	polyside=document.getElementById("polyside").value;
+	polyco_length=polyco.length;
+	//Updatation of all the values Required for the Experiment
+	ax = x1s;
+	ay = y1s;
+	bx = x2s;
+	by = y1s;
+	cx = x2s;
+	cy = y2s;
+	dx = x1s;
+	dy = y2s;
+	xmin = ax;
+	xmax = cx;
+	ymin = ay;
+	ymax = cy;
+	allPath=[];
+	polygonPath=[];
+	clippedPath=[];
+	clipEdge=1;
+	l=0;
+	//Clearing canvas
+	context.clearRect(0,0,500,550);
+	//Clearing the Printing Area
+	p1.innerHTML="Updates The Values ";
+	p2.innerHTML="Now Start The Experiment";
+	p3.innerHTML="";
+	p4.innerHTML="";
+	p5.innerHTML="";
+	p6.innerHTML="";
+	p7.innerHTML="";
+	p8.innerHTML="";
+	p9.innerHTML="";
+	p0.innerHTML="";
+}  
+
 //Function For Converting the polygon text coordinates to the coordinates stored in array	
 function initial()
 {
 
+	update();
+	p1.innerHTML="";
+	p2.innerHTML="";
 	var x=0,y=0;
 	var j=0,i=0;
 	for(i=0;i<polyco_length;i++)
 	{
 		if(polyco[i]== " " || polyco[i]== ",")
 		{
-			coordinates[x][y]=10*parseInt(polyco.substring(j,i-1));
+			coordinates[x][y]=Number(polyco.substring(j,i));
 			y++;
 			j=i+1;
 			if(polyco[i] == ",")
@@ -76,11 +107,12 @@ function initial()
 	}
 	for (i = 0; i<polyside; i++) 
 	{
-			polygonPath.push([coordinates[i][0], coordinates[i][1]]);
+		polygonPath.push([coordinates[i][0], coordinates[i][1]]);
 	}
 	allPath.push(polygonPath);
 	drawPolygon(polygonPath);
 }
+
 
 //Function Clipping executes On Clicking Clip Everytime
 function next_iteration()
