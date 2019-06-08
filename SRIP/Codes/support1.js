@@ -91,6 +91,7 @@ function update()
 
 	//Alert Conditions On entering wrong values by the user 
 	var already_checked=1;
+
 	if(polyside<=2)
 	{
 		p1.innerHTML="";
@@ -139,6 +140,36 @@ function update()
 			p1.innerHTML="";
 			p2.innerHTML="";
 			alert("Remove The Extra Spaces\nEnter the Coordinates in format - x1 y1,x2 y2,x3 y3,\nRe-enter the Values and Update");
+			wrong_inputs=1;
+		}
+	}
+	already_checked=1;
+	var p=0;
+	for(var q=0;q<polyco_length;q++)
+	{
+		if(polyco[q]== " " || polyco[q]== ",")
+		{
+			var t = Number(polyco.substring(p,q));
+			p=q+1;
+			if(t>500 || t<0)
+			{
+				p1.innerHTML="";
+				p2.innerHTML="";
+				alert("For Both Rectangle and Polygon \nMin. value of coordinates (0,0)\nMax. value of coordinates (500,500)\nRe-enter the Values and Update");
+				wrong_inputs=1;
+				already_checked = 0;
+				break;
+
+			}
+		}
+	}
+	if(already_checked)
+	{
+		if(x1s>500 || x2s>500 || y1s>500 || y2s>500 || x1s<0 || x2s<0 || y1s<0 || y2s<0)
+		{  
+			p1.innerHTML="";
+			p2.innerHTML="";
+			alert("For Both Rectangle and Polygon \nMin. value of coordinates (0,0)\nMax. value of coordinates (500,500)\nRe-enter the Values and Update");
 			wrong_inputs=1;
 		}
 	}
@@ -380,6 +411,8 @@ function clip_left(path,i)
 		}
 		else
 		{
+			p2.innerHTML="Current Coordinates of the Polygon are";
+			p3.innerHTML=polygonPath;
 			drawPolygon(polygonPath);
 		}
 	}
@@ -481,6 +514,8 @@ function clip_top(path,i)
 		}
 		else
 		{
+			p2.innerHTML="Current Coordinates of the Polygon are";
+			p3.innerHTML=polygonPath;
 			drawPolygon(polygonPath);
 		}
 	}	
@@ -581,6 +616,8 @@ function clip_right(path,i)
 		}
 		else
 		{
+			p2.innerHTML="Current Coordinates of the Polygon are";
+			p3.innerHTML=polygonPath;
 			drawPolygon(polygonPath);
 		}
 	}		
@@ -681,6 +718,8 @@ function clip_down(path,i)
 		}
 		else
 		{
+			p2.innerHTML="Current Coordinates of the Polygon are";
+			p3.innerHTML=polygonPath;
 			drawPolygon(polygonPath);
 		}
 	}
