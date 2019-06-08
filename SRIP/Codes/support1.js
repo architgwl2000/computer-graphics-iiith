@@ -259,14 +259,28 @@ function clip()
 				clip_down(polygonPath,l);
 				break;
 		
-		case 5: 
-				drawPolygon(polygonPath);
-				p1.innerHTML = "New Coordinates Of New Polygon Are";
-				p2.innerHTML = polygonPath;
-				p3.innerHTML = "New Sides - " + (polygonPath.length);
-				p4.innerHTML = "Experiment Ends Here";
-				p5.innerHTML = " ";
-				p6.innerHTML = "";
+		case 5: if(polygonPath.length!=0)
+				{
+					p1.innerHTML = "New Coordinates Of New Polygon Are";
+					p2.innerHTML = polygonPath;
+					p3.innerHTML = "New Sides - " + (polygonPath.length);
+					p4.innerHTML = "Experiment Ends Here";
+					p5.innerHTML = " ";
+					p6.innerHTML = "";
+					drawPolygon(polygonPath);
+				}
+				else
+				{
+					context.clearRect(0,0,500,500);
+					drawSquare();
+					p1.innerHTML = "Polygon Lies Totally Outside the Clipping Window ";
+					p2.innerHTML = "Therefore Clipping the whole polygon";
+					p3.innerHTML = "";
+					p4.innerHTML = "Experiment Ends Here";
+					p5.innerHTML = "";
+					p6.innerHTML = "";
+
+				}
 				break;
 	}
 }
@@ -356,11 +370,18 @@ function clip_left(path,i)
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
 		allPath.push(clippedPath);
-		drawPolygon(clippedPath);
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
 		clipEdge++;
 		l=-1;
+		if(polygonPath.length==0)
+		{
+			clipEdge=5;
+		}
+		else
+		{
+			drawPolygon(polygonPath);
+		}
 	}
 }
 
@@ -450,11 +471,18 @@ function clip_top(path,i)
 		p4.innerHTML = " ";
 		allPath.push(clippedPath);
 		context.clearRect(0, 0, 500, 500);
-		drawPolygon(clippedPath);
 		clipEdge++;
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
 		l=-1;
+		if(polygonPath.length==0)
+		{
+			clipEdge=5;
+		}
+		else
+		{
+			drawPolygon(polygonPath);
+		}
 	}	
 }
 
@@ -543,11 +571,18 @@ function clip_right(path,i)
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
 		allPath.push(clippedPath);
-		drawPolygon(clippedPath);
 		clipEdge++;
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
 		l=-1;
+		if(polygonPath.length==0)
+		{
+			clipEdge=5;
+		}
+		else
+		{
+			drawPolygon(polygonPath);
+		}
 	}		
 }
 
@@ -636,11 +671,18 @@ function clip_down(path,i)
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
 		allPath.push(clippedPath);
-		drawPolygon(clippedPath);
 		clipEdge++;
 		polygonPath=clippedPath.slice();
 		clippedPath = [];
 		l=-1;
+		if(polygonPath.length==0)
+		{
+			clipEdge=5;
+		}
+		else
+		{
+			drawPolygon(polygonPath);
+		}
 	}
 }
 
