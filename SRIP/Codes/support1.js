@@ -37,9 +37,15 @@ var p8=document.getElementById("print8");
 var p9=document.getElementById("print9");
 var p0=document.getElementById("print0");
 
+//Checking If there Are Any Wrong Inputs
+var wrong_inputs = 0;
+
 //Function To Update The Default values And Overwrite the Polygon values
 function update() 
 {
+	//Updating wrong Inputs
+	wrong_inputs = 0;
+
   	//Getting All the Inputs Given by the User 
 	x1s=document.getElementById("x1s").value;
 	x2s=document.getElementById("x2s").value;
@@ -48,6 +54,7 @@ function update()
 	polyco = document.getElementById("polyco").value;
 	polyside=document.getElementById("polyside").value;
 	polyco_length=polyco.length;
+
 	//Updatation of all the values Required for the Experiment
 	ax = x1s;
 	ay = y1s;
@@ -66,8 +73,10 @@ function update()
 	clippedPath=[];
 	clipEdge=1;
 	l=0;
+
 	//Clearing canvas
 	context.clearRect(0,0,500,550);
+
 	//Clearing the Printing Area
 	p1.innerHTML="Updates The Values ";
 	p2.innerHTML="Now Start The Experiment";
@@ -79,6 +88,60 @@ function update()
 	p8.innerHTML="";
 	p9.innerHTML="";
 	p0.innerHTML="";
+
+	//Alert Conditions On entering wrong values by the user 
+	var already_checked=1;
+	if(polyside<=2)
+	{
+		p1.innerHTML="";
+		p2.innerHTML="";
+		alert("Minimum No. of Polygon Sides is 3\nRe-enter the Values and Update");
+		already_checked=0;
+		wrong_inputs=1;
+	}
+	else if(polyside>=11)
+	{
+		p1.innerHTML="";
+		p2.innerHTML="";
+		alert("Maximum Sides of polygon that can be entered is 10\nRe-enter the Values and Update ");
+		already_checked=0;
+		wrong_inputs=1;
+	}
+	var comma_count =0;
+	var space_count =0;
+	for (var i = 0; i < polyco_length; i++) 
+	{
+		if(polyco[i] == "," && comma_count<polyside )
+			comma_count++;
+		if(polyco[i] == " " && comma_count<polyside)
+			space_count++;
+		if(isNaN(polyco[i]) && (polyco[i]!=" ") && (polyco[i]!=","))
+		{
+			p1.innerHTML="";
+			p2.innerHTML="";
+			alert("Polygon Coordinates Entered Wrong\nEnter the Coordinates in format - x1 y1,x2 y2,x3 y3,\nRe-enter the Values and Update");
+			wrong_inputs=1;
+			already_checked=0;
+			break;
+		}	
+	}
+	if(already_checked)	
+	{
+		if(comma_count<polyside)
+		{
+			p1.innerHTML="";
+			p2.innerHTML="";
+			alert("Enter the Remaining Coordinates and Update");
+			wrong_inputs=1;
+		}
+		else if(space_count!=polyside)
+		{
+			p1.innerHTML="";
+			p2.innerHTML="";
+			alert("Remove The Extra Spaces\nEnter the Coordinates in format - x1 y1,x2 y2,x3 y3,\nRe-enter the Values and Update");
+			wrong_inputs=1;
+		}
+	}
 }  
 
 //Function For Converting the polygon text coordinates to the coordinates stored in array	
@@ -86,31 +149,38 @@ function initial()
 {
 
 	update();
-	p1.innerHTML="";
-	p2.innerHTML="";
-	var x=0,y=0;
-	var j=0,i=0;
-	for(i=0;i<polyco_length;i++)
+	if (wrong_inputs) 
 	{
-		if(polyco[i]== " " || polyco[i]== ",")
+		wrong_inputs=0;
+	}
+	else
+	{
+		p1.innerHTML="";
+		p2.innerHTML="";
+		var x=0,y=0;
+		var j=0,i=0;
+		for(i=0;i<polyco_length;i++)
 		{
-			coordinates[x][y]=Number(polyco.substring(j,i));
-			y++;
-			j=i+1;
-			if(polyco[i] == ",")
+			if(polyco[i]== " " || polyco[i]== ",")
 			{
-				x++;
-				y=0;
+				coordinates[x][y]=Number(polyco.substring(j,i));
+				y++;
+				j=i+1;
+				if(polyco[i] == ",")
+				{
+					x++;
+					y=0;
+				}
 			}
+			
 		}
-		
+		for (i = 0; i<polyside; i++) 
+		{
+			polygonPath.push([coordinates[i][0], coordinates[i][1]]);
+		}
+		allPath.push(polygonPath);
+		drawPolygon(polygonPath);
 	}
-	for (i = 0; i<polyside; i++) 
-	{
-		polygonPath.push([coordinates[i][0], coordinates[i][1]]);
-	}
-	allPath.push(polygonPath);
-	drawPolygon(polygonPath);
 }
 
 
@@ -285,7 +355,6 @@ function clip_left(path,i)
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
-		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
 		drawPolygon(clippedPath);
 		polygonPath=clippedPath.slice();
@@ -379,7 +448,6 @@ function clip_top(path,i)
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
-		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
 		context.clearRect(0, 0, 500, 500);
 		drawPolygon(clippedPath);
@@ -474,7 +542,6 @@ function clip_right(path,i)
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
-		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
 		drawPolygon(clippedPath);
 		clipEdge++;
@@ -568,7 +635,6 @@ function clip_down(path,i)
 		p2.innerHTML = " ";
 		p3.innerHTML = " ";
 		p4.innerHTML = " ";
-		//clippedPath.push(clippedPath[0]);
 		allPath.push(clippedPath);
 		drawPolygon(clippedPath);
 		clipEdge++;
@@ -583,24 +649,20 @@ function find_intersection(endpoints, edge)
 {
 	//endpoints - the end points of an edge of the polygon
 	//edge - the edge with which we want to calculate the intersection with
-
 	intersection = [];
 
 	//all lines are of the form y = mx + c
-	//m = (y2-y1)/(x2-x1)
-
 	start = endpoints[0];
 	end = endpoints[1];
-
 	x1 = start[0];
 	y1 = start[1];
 	x2 = end[0];
 	y2 = end[1];
 
+	//finding the slope 
 	m = (y2-y1)/(x2-x1);
 
 	//find the constant c
-
 	c = y1 - m*x1;
 
 	//To find intersection with left edge
