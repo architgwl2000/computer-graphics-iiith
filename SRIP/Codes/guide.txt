@@ -1,0 +1,141 @@
+Guide For Clipping Polygon Experiment
+
+
+1.To perform the Experiment open exp1.html
+
+2.Enter the Values and click update then click on start experiment
+	Note - To Start the Experiment with Default Values Directly click on Start Experiment
+
+3.Click on next iteration to continue further and click on previous iteration to go back one step
+
+4.After the clipping is done the experiment it shows the final coordinates of the polygon which is clipped
+	and will give the message Experiment Ends here.
+
+5.To perform the experiment again refresh the page, update the values and begin.
+
+
+
+Some Of the Test Cases of the experiment.
+
+1.Test Case No.1
+	Rectangle Coordinates
+	x1 - 100, y1 - 100
+    x2 - 300, y2 - 300
+	Polgon Sides - 4
+   	Polygon Coordinates - 50 200,200 50,350 200,200 350,
+
+   	After Clipping w.r.t. Left Side
+   	Polygon Coordinates - 100,150,200,50,350,200,200,350,100,250
+
+   	After Clipping w.r.t. Top Side
+   	Polygon Coordinates - 150,100,250,100,350,200,200,350,100,250,100,150
+
+   	After Clipping w.r.t. Right Side
+   	Polygon Coordinates - 250,100,300,150,300,250,200,350,100,250,100,150,150,100
+
+   	After Clipping w.r.t. Bottom Side
+	Polygon Coordinates - 300,150,300,250,250,300,150,300,100,250,100,150,150,100,250,100
+
+	Final
+	Polgon Sides - 8
+   	Polygon Coordinates - 300,150,300,250,250,300,150,300,100,250,100,150,150,100,250,100
+
+2.Test Case No.2
+	Rectangle Coordinates
+	x1 - 100, y1 - 100
+    x2 - 100, y2 - 300
+	Polgon Sides - 8
+   	Polygon Coordinates - 50 125,150 50,360 150,320 290,250 380,200 420,150 250,100 210,
+
+   	After Clipping w.r.t. Left Side
+   	Polygon Coordinates - 100,88,150,50,360,150,320,290,250,380,200,420,150,250,100,210
+
+   	After Clipping w.r.t. Top Side
+   	Polygon Coordinates - 255,100,360,150,320,290,250,380,200,420,150,250,100,210,100,100
+
+   	After Clipping w.r.t. Right Side
+   	Polygon Coordinates - 300,121,300,316,250,380,200,420,150,250,100,210,100,100,255,100
+
+   	After Clipping w.r.t. Bottom Side
+   	Polygon Coordinates - 300,300,165,300,150,250,100,210,100,100,255,100,300,121
+
+   	Final
+	Polgon Sides - 7
+   	Polygon Coordinates - 300,300,165,300,150,250,100,210,100,100,255,100,300,121
+
+
+3.Test Case No. 3
+	Rectangle Coordinates
+	x1 - 10, y1 - 10
+    x2 - 100, y2 - 100
+	Polgon Sides - 4
+   	Polygon Coordinates - 50 200,200 50,350 200,200 350,
+
+   	After Clipping w.r.t. Left Side
+   	Polygon Coordinates - 200,50,350,200,200,350,50,200
+
+   	After Clipping w.r.t. Top Side
+   	Polygon Coordinates - 350,200,200,350,50,200,200,50
+
+   	After Clipping w.r.t. Right Side
+   	Polygon Coordinates - 100,250,50,200,100,150
+
+   	After Clipping w.r.t. Bottom Side
+   	Polygon Coordinates - No points Exists
+
+   	Final
+	Polgon Sides - 0
+   	Polygon Coordinates - No points Exists
+
+
+4.Test Case No. 4
+	Rectangle Coordinates
+	x1 - 10, y1 - 10
+    x2 - 400, y2 - 400
+	Polgon Sides - 6
+   	Polygon Coordinates - 50 200,150 350,200 200,250 350,350 200,200 50,
+
+   	After Clipping w.r.t. Left Side
+   	Polygon Coordinates - 150,350,200,200,250,350,350,200,200,50,50,200
+
+   	After Clipping w.r.t. Top Side
+   	Polygon Coordinates - 200,200,250,350,350,200,200,50,50,200,150,350
+
+   	After Clipping w.r.t. Right Side
+   	Polygon Coordinates - 250,350,350,200,200,50,50,200,150,350,200,200
+
+   	After Clipping w.r.t. Bottom Side
+   	Polygon Coordinates - 350,200,200,50,50,200,150,350,200,200,250,350
+
+
+
+   	Final
+	Polgon Sides - 6
+   	Polygon Coordinates - 350,200,200,50,50,200,150,350,200,200,250,350
+
+
+
+5.Test Case No. 5
+	Rectangle Coordinates
+	x1 - 200, y1 - 200
+    x2 - 400, y2 - 400
+	Polgon Sides - 6
+   	Polygon Coordinates - 50 200,150 350,200 200,250 350,350 200,200 50,
+
+   	After Clipping w.r.t. Left Side
+   	Polygon Coordinates - 200,200,250,350,350,200,200,50
+
+   	After Clipping w.r.t. Top Side
+   	Polygon Coordinates - 200,200,250,350,350,200
+
+   	After Clipping w.r.t. Right Side
+   	Polygon Coordinates - 250,350,350,200,200,200
+
+   	After Clipping w.r.t. Bottom Side
+   	Polygon Coordinates - 350,200,200,200,250,350
+
+   	Final
+	Polgon Sides - 3
+   	Polygon Coordinates - 350,200,200,200,250,350
+
+

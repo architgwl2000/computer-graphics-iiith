@@ -1,4 +1,4 @@
-In the code folder the are 5 files right now 
+In the code folder the are 6 files 
 1.experiment.html
 	It contains the Experiment along with the theme ui of vlab.co.in
 
@@ -15,3 +15,6 @@ In the code folder the are 5 files right now
 
 5-manual.txt 
 	which gives the basics of the experiment and algotirthm used and its limitations 
+
+6-guide.txt
+	It has Steps to perform the Experiment and has some of the test cases
