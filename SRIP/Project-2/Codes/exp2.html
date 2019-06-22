@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rasterization: Polygon</title><!-- Heading -->
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Division Of Html Page Into -->
+	<link rel="stylesheet" type="text/css" href="support2.css"><!-- Linking the CSS file -->
+	
+</head>
+<body>
+	<div class="row">
+		<h2>Rasterization: Polygon Experiment</h2>
+	<div class="column" id="column1"> <!-- Dividing the Page into left part-->
+		<form>
+			Enter Frame Width <emsp></emsp>
+			<input type="number" id='width' value="10"> <br>
+			Enter Frame Height <emsp></emsp>
+			<input type="number" id='height' value="10"> <br><br>
+			Enter the sides of the Polygon(max 10) <emsp></emsp><!-- Entereing the Co-ordinates of the Polygon -->
+			<input type="number" id="polyside" value='4'><br>
+			Enter The Co-ordinates of the Polygon in Sequential order <br>
+			<textarea id="polyco" rows="2" cols="35">2 2,2 8,8 8,8 2,</textarea>
+			<button type="button" onclick="update()";>Update </button><br><!-- Updates The Values of the Polygon-->
+			<button type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
+			<button type="button" onclick="prev_iteration()"> Previous Iteration </button><!-- This Button will clip the egdes one by one--> 
+			<button type="button" onclick="next_iteration()"> Next Iteration </button><br><!-- This Button will clip the egdes one by one-->  
+		</form>
+		<p id="print0"></p>
+		<p id="print1"></p>
+		<p id="print2"></p>
+		<p id="print3"></p>
+		<p id="print4"></p>
+		<p id="print5"></p>
+		<p id="print6"></p>
+		<p id="print7"></p>
+		<p id="print8"></p>
+		<p id="print9"></p>
+		<script src="support2.js"></script> <!-- Linking the Javascript File -->
+
+	</div>
+	<div class="column" id="column2">
+		<canvas id="myCanvas" width="500" height="550" style="border:2px solid #c3c3c3;">
+		Your browser does not support the canvas element.PLEASE CHECK THE BROWSER AND UPDATE IT
+		</canvas>
+
+		<script src="support1.js"></script> <!-- Linking the Javascript File -->
+	</div>
+	
+	</div>
+</body>
+</html>
