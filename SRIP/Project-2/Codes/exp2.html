@@ -21,8 +21,8 @@
 			<textarea id="polyco" rows="2" cols="35">2 2,2 8,8 8,8 2,</textarea>
 			<button type="button" onclick="update()";>Update </button><br><!-- Updates The Values of the Polygon-->
 			<button type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
-			<button type="button" onclick="prev_iteration()"> Previous Iteration </button><!-- This Button will clip the egdes one by one--> 
-			<button type="button" onclick="next_iteration()"> Next Iteration </button><br><!-- This Button will clip the egdes one by one-->  
+			<button type="button" onclick="prev_iteration()"> Previous Iteration </button><!-- This Button will Scan previous The Line One By one--> 
+			<button type="button" onclick="next_iteration()"> Next Iteration </button><br><!-- This Button will Scan the Next line one by one-->  
 		</form>
 		<p id="print0"></p>
 		<p id="print1"></p>
@@ -38,11 +38,11 @@
 
 	</div>
 	<div class="column" id="column2">
-		<canvas id="myCanvas" width="500" height="550" style="border:2px solid #c3c3c3;">
+		<canvas id="myCanvas" width="500" height="550" style="border:2px solid #c3c3c3;"><!-- Including the Canvas In the page -->
 		Your browser does not support the canvas element.PLEASE CHECK THE BROWSER AND UPDATE IT
 		</canvas>
 
-		<script src="support1.js"></script> <!-- Linking the Javascript File -->
+		<script src="support2.js"></script> <!-- Linking the Javascript File -->
 	</div>
 	
 	</div>
