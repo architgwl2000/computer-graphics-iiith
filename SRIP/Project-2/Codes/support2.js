@@ -29,7 +29,7 @@ var coordinates=[[2,2],[2,8],[8,8],[8,2],[10,10],[12,13],[14,15],[16,17],[18,19]
 var wrongInputs=0;
 
 //Multiplication factor For Printing In canvas
-var factor=30;
+var factor=50;
 
 //Update Function
 function update() 
@@ -44,7 +44,7 @@ function update()
 	polyside=document.getElementById("polyside").value;
 
 	//Clearing canvas
-	context.clearRect(0,0,500,550);
+	context.clearRect(0,0,550,550);
 
 	//Clearing all back values
 	polygonPath=[];
@@ -85,11 +85,11 @@ function update()
 			{
 				var t = Number(polyco.substring(p,q));
 				p=q+1;
-				if(t<0 || (even%2==0 && t>width) || (even%2!=0 && t>height))
+				if(t<0 || (even%2==0 && t>=width) || (even%2!=0 && t>=height))
 				{
 					p1.innerHTML="";
 					p2.innerHTML="";
-					alert("Polygon \nMin. value of coordinates (0,0)\nMax. value of coordinates ("+width+","+height+")\nRe-enter the Values and Update");
+					alert("Polygon \nMin. value of coordinates (0,0)\nMax. value of coordinates ("+(width-1)+","+(height-1)+")\nRe-enter the Values and Update");
 					wrongInputs=1;
 					break;
 				}
@@ -175,24 +175,74 @@ function initial()
 			polygonPath.push([coordinates[i][0], coordinates[i][1]]);
 		}
 		p2.innerHTML=polygonPath;
-		drawPolygon(polygonPath);	
+		drawPolygon(polygonPath);
+		drawGrid();
 		p1.innerHTML=" begin soon";
 		p2.innerHTML="";
 	}
 
 }
+//For Next iteration
+function nextIteration()
+{
+}
 
+//For previous iteration
+function previousIteration() 
+{
+	// body...
+}
+
+
+//Draws the Polygon
 function drawPolygon(path)
 {
-	
+	var leftMargin =40;
+	var bottomMargin =510;
+	var align=factor/2;
 	context.beginPath();
-	context.moveTo(path[0][0]*factor, path[0][1]*factor);
+	context.moveTo(path[0][0]*factor+leftMargin+align,bottomMargin-path[0][1]*factor-align);
 	for(i=1; i<path.length; i++)
 	{
-		context.lineTo(path[i][0]*factor, path[i][1]*factor);
+		context.lineTo(path[i][0]*factor+leftMargin+align,bottomMargin-path[i][1]*factor-align);
 	}
-	context.lineTo(path[0][0]*factor, path[0][1]*factor);
-	context.lineWidth = 1;
-	context.strokeStyle = 'black';
+	context.lineTo(path[0][0]*factor+leftMargin+align,bottomMargin-path[0][1]*factor-align);
+	context.lineWidth = 3;
+	context.strokeStyle = "yellow";
 	context.stroke();
 }
+
+//Draws The Grid
+function drawGrid()
+{
+	var leftMargin =40;
+	var bottomMargin =510;
+	var align=(factor/2)-5;
+	context.beginPath();
+	for(i=0; i<=width; i++)
+	{
+		if(i<width)
+		{
+			context.fillStyle = "white";
+			context.font="15px Arial";
+			context.fillText(i,leftMargin+i*factor+align,bottomMargin+15)
+		}
+		context.moveTo(leftMargin+i*factor,bottomMargin);
+		context.lineTo(leftMargin+i*factor,bottomMargin-height*factor);
+	}
+	for(i=0; i<=height; i++)
+	{
+		if(i<height)
+		{
+			context.fillStyle = "white";
+			context.font="15px Arial";
+			context.fillText(i,leftMargin-15,bottomMargin-i*factor-align)
+		}
+		context.moveTo(leftMargin,bottomMargin-i*factor);
+		context.lineTo(leftMargin+width*factor,bottomMargin-i*factor);
+	}
+	context.lineWidth = 1;
+	context.strokeStyle = 'white';
+	context.stroke();
+}
+
