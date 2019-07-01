@@ -28,8 +28,15 @@ var coordinates=[[2,2],[2,8],[8,8],[8,2],[10,10],[12,13],[14,15],[16,17],[18,19]
 //For Informing Initial Function If all Values are correct and within the range or not
 var wrongInputs=0;
 
+//Multiplication factor For Printing In canvas
+var factor=30;
+
+//Update Function
 function update() 
 {
+	//Updating variable for wrong inputs
+	wrongInputs=0;
+
 	//Getting the values given by the user
 	width=document.getElementById("width").value;
 	height=document.getElementById("height").value;
@@ -135,9 +142,8 @@ function update()
 			wrongInputs=1;
 		}
 	}
-	
 }
-
+//Start Experiment Connected with it
 function initial()
 {
 	update();
@@ -164,6 +170,29 @@ function initial()
 				}
 			}
 		}
+		for (i = 0; i<polyside; i++) 
+		{
+			polygonPath.push([coordinates[i][0], coordinates[i][1]]);
+		}
+		p2.innerHTML=polygonPath;
+		drawPolygon(polygonPath);	
+		p1.innerHTML=" begin soon";
+		p2.innerHTML="";
 	}
 
+}
+
+function drawPolygon(path)
+{
+	
+	context.beginPath();
+	context.moveTo(path[0][0]*factor, path[0][1]*factor);
+	for(i=1; i<path.length; i++)
+	{
+		context.lineTo(path[i][0]*factor, path[i][1]*factor);
+	}
+	context.lineTo(path[0][0]*factor, path[0][1]*factor);
+	context.lineWidth = 1;
+	context.strokeStyle = 'black';
+	context.stroke();
 }
