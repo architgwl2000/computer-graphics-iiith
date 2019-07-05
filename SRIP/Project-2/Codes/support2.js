@@ -26,7 +26,6 @@ var lineRecord=[];
 var coordinates=[[2,2],[2,8],[8,8],[8,2],[10,10],[12,13],[14,15],[16,17],[18,19],[20,21]];//temporary storage of coordinates
 var activeEdge=[];
 
-
 //For Informing Initial Function If all Values are correct and within the range or not
 var wrongInputs=0;
 
@@ -35,6 +34,7 @@ var factor=50;
 
 //Scanline Current;
 var scanline =0;
+
 //EvenOdd Varaible
 var even =0;
 
@@ -167,6 +167,7 @@ function update()
         }
     }
 }
+
 //Start Experiment Connected with it
 function initial()
 {
@@ -204,6 +205,7 @@ function initial()
     }
 
 }
+
 //For Next iteration
 function nextIteration()
 {
@@ -231,9 +233,40 @@ function nextIteration()
 
 //For previous iteration
 function previousIteration() 
-{   // body...
-}
+{
+    //Clearing The Printing Area
+    p1.innerHTML="";
+    p2.innerHTML="";
+    p3.innerHTML="";
+    p4.innerHTML="";
+    p5.innerHTML="";
+    p6.innerHTML="";
+    p7.innerHTML="";
+    p8.innerHTML="";
+    p9.innerHTML="";
+    p0.innerHTML="";
 
+   
+    //Decreasing the Value of Scanline
+    if(scanline>0)
+    {    
+        if(even%2==0)
+        {    scanline--;
+        } 
+        even=0;
+        activeEdge=[];
+    } 
+    else
+    {
+        even=0;
+        activeEdge=[];
+    }  
+     //Clearing The Canvas 
+    for(var i=0;i<width;i++)
+    {
+        fillbox(i,scanline,"black");
+    }
+}
 
 //scanline algorithm main
 function scanPolygon()
@@ -294,6 +327,7 @@ function scanPolygon()
         even++;
     }
 }
+
 //Function To find Intersection with scanline w.r.t to a line
 function findIntersection(point0,point1,point2)
 {
@@ -342,7 +376,6 @@ function findIntersection(point0,point1,point2)
     return(intersectionPoints);
 }
 
-
 //Sort Function for Active Edges
 function sort(path)
 {
@@ -360,7 +393,6 @@ function sort(path)
     }
     return(path);
 }
-
 
 //Draws the Polygon  
 function drawPolygon(path)
