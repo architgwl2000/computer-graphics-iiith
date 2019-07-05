@@ -18,7 +18,7 @@
 }
 /*Change the backgorund Color of Left Half*/ 
 #column1 {
-	background: lightpink;
+	background: lightblue;
 }
 /*Change the backgorund Color of Right Half*/
 #column2 {
@@ -40,12 +40,15 @@
   background: white;
 }
 #print3 {
+  color: red;
   background: white;
 }
 #print4 {
+  color: red;
   background: white;
 }
 #print5 {
+  color: red;
   background: white;
 }
 #print6 {

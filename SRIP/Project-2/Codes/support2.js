@@ -70,7 +70,8 @@ function update()
         greater=height;
     else
         greater=width;
-
+    //factor is the square-box side length 
+    //It is Been Modified Acc. to keep grid inside canvas 
     factor=Math.round(500.0/greater);
     if(factor%2!=0)
         factor--;
@@ -122,7 +123,7 @@ function update()
         }
     }
     alreadyChecked=1;
-    if(polyside<3 || polyside>10)//for correct polygon sides
+    if(polyside<2 || polyside>10)//for correct polygon sides
     {
         p1.innerHTML="";
         p2.innerHTML="";
@@ -177,10 +178,10 @@ function initial()
     }
     else//If all values Are correct
     {
-        p1.innerHTML="";
+        p1.innerHTML="";//Clearing Printing Area
         p2.innerHTML="";
-        var x=0,y=0;
-        var j=0,i=0;
+        var x=0,y=0;//For Coordinates Tally
+        var j=0,i=0;//For taking out Number String
         for(i=0;i<polyco.length;i++)
         {
             if(polyco[i]== " " || polyco[i]== ",")
@@ -195,31 +196,31 @@ function initial()
                 }
             }
         }
+        //Copying The Coordinates to the polygonPath 
+        //It only copies the Upto Polygon Sides given by the User
         for (i = 0; i<polyside; i++) 
         {
             polygonPath.push([coordinates[i][0], coordinates[i][1]]);
         }
-        p2.innerHTML=polygonPath;
-        drawPolygon(polygonPath);
-        drawGrid();
+        drawPolygon(polygonPath);//Drawing the Polygon
+        drawGrid();//Drawing the Grid
     }
-
 }
 
 //For Next iteration
 function nextIteration()
 {
-    if(scanline<height)
+    if(scanline<height)//Calling Scanline Function
         scanPolygon();
         
-    else if(scanline==height)
+    else if(scanline==height)//Experiment Completed Message
     {
-        p1.innerHTML="Polygon Filled";
+        p1.innerHTML="Polygon Filled!!!";
         p2.innerHTML="Experiment Ends Here";
-        p3.innerHTML="To perform Again Re-enter the Values and Update";
+        p3.innerHTML="";
         p4.innerHTML="";
         p5.innerHTML="";
-        p6.innerHTML="";
+        p6.innerHTML="To perform Again Re-enter the Values and Update";
         p7.innerHTML="";
         p8.innerHTML="";
         p9.innerHTML="";
@@ -271,22 +272,28 @@ function previousIteration()
 //scanline algorithm main
 function scanPolygon()
 {
-
+    //Scanline Printing Message
     p1.innerHTML="Scanline - "+scanline;
+    p2.innerHTML="";
+    p3.innerHTML="";
+    p4.innerHTML="";
+    p5.innerHTML="";
+    //First If to find AET
+    //Then Else For Filling Between the AET
     if(even%2==0)
     {
-        activeEdge=[];
-        for(var i=0;i<width;i++)
+        activeEdge=[];//Clearing The Active Edge 
+        for(var i=0;i<width;i++)//Filling the Scanline With White Colour
         {
             fillbox(i,scanline,"white");
         }   
-
+        //Finding Intersection Between the scanline and Polgon Edges One By One 
         var intersection=findIntersection(polygonPath[polygonPath.length-1],polygonPath[0],polygonPath[1]);
         if(intersection!=-1)
         {
             activeEdge.push(intersection);
         }
-
+        //Intersection between Second Edge To Second Last Edge 
         for(var i=0;i<polygonPath.length-2;i++)
         {
             intersection=findIntersection(polygonPath[i],polygonPath[i+1],polygonPath[i+2]);
@@ -295,33 +302,84 @@ function scanPolygon()
                 activeEdge.push(intersection);
             }
         }
-
+        //Intersection Of last Edge
         intersection=findIntersection(polygonPath[polygonPath.length-2],polygonPath[polygonPath.length-1],polygonPath[0]);
         if(intersection!=-1)
         {
             activeEdge.push(intersection);
         }
-
+        //Sorting The activeEdges in increasing order of x
         activeEdge = sort(activeEdge);
-        p2.innerHTML="Active Edges Found are";
-        p3.innerHTML=activeEdge;
+        var printer ="";
         for(var i=0;i<activeEdge.length;i++)
-        {
+        {//Printing The Red boxes in the Grid Canvas
             fillbox(activeEdge[i][0],activeEdge[i][1],"red");
+            printer=printer+"("+activeEdge[i][0]+","+activeEdge[i][1]+") ";
         }
+        p2.innerHTML="Active Edge Table Enteries:";
+        if(printer.length==0)
+        {
+            printer="None";
+        }
+        p3.innerHTML=printer;
         even++; 
+        if(activeEdge.length==0)
+        {
+            //Increasing The Scanline Value
+            if(scanline<height)
+                scanline++;
+            even++;
+        }
     }   
     else 
     {   
-        p2.innerHTML="Filling Polygon Between The Active Edges";
+        var countNumber=0;
+        var lenOFPrinter=0;
+        var lenOFPrinter2=0;
+        var printer="";//For Storing The Coordinates In Printable Form 
         for(var i=0;i<activeEdge.length;i+=2)
         {
             for(var j=activeEdge[i][0];j<=activeEdge[i+1][0];j++)
-            {   
-                fillbox(j,scanline,"red");
+            {  
+                fillbox(j,scanline,"red");//Printing The Red boxes in the Grid Canvas
+                printer=printer+"("+j+","+scanline+") ";
+                countNumber++;
+                if(countNumber==10)
+                {
+                    lenOFPrinter=printer.length;
+                }
+                else if(countNumber==20)
+                {
+                    lenOFPrinter2=printer.length;
+                }
             }
         }
+        if(printer.length==0)
+        {
+            printer="None";
+        }
+        //Printing The Coordinates
+        p2.innerHTML="Filled Points inside Polygon along this Scanline:";
+        if(countNumber<=10)
+            p3.innerHTML=printer;
+        else if(countNumber<=20)
+        {
+            var substr1=printer.substring(0,lenOFPrinter);
+            var substr2=printer.substring(lenOFPrinter);
+            p3.innerHTML=substr1;
+            p4.innerHTML=substr2;
+        }
+        else
+        {
+            var substr1=printer.substring(0,lenOFPrinter);
+            var substr2=printer.substring(lenOFPrinter,lenOFPrinter2);
+            var substr3=printer.substring(lenOFPrinter2);
+            p3.innerHTML=substr1;
+            p4.innerHTML=substr2;
+            p5.innerHTML=substr3;
+        }
 
+        //Increasing The Scanline Value
         if(scanline<height)
             scanline++;
         even++;
@@ -377,6 +435,7 @@ function findIntersection(point0,point1,point2)
 }
 
 //Sort Function for Active Edges
+//Using Bubble Sort Algorithm
 function sort(path)
 {
     for(var i=0;i<path.length;i++)
