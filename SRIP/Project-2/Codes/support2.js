@@ -64,6 +64,18 @@ function update()
     lineRecord=[];
     activeEdge=[];
 
+    //Updating Factor
+    var greater;
+    if(height>=width)
+        greater=height;
+    else
+        greater=width;
+
+    factor=Math.round(500.0/greater);
+    if(factor%2!=0)
+        factor--;
+
+
     //Clearing the Printing Area
     p1.innerHTML="Updates The Values ";
     p2.innerHTML="Now Start The Experiment";
