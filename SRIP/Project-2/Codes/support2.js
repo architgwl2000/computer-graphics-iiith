@@ -152,14 +152,14 @@ function update()
     }
     if(alreadyChecked)  
     {
-        if(commaCount<polyside)
+        if(commaCount<polyside)//Count Commas
         {
             p1.innerHTML="";
             p2.innerHTML="";
             alert("Enter the Remaining Coordinates and Update");
             wrongInputs=1;
         }
-        else if(spaceCount!=polyside)
+        else if(spaceCount!=polyside)//Count Spaces
         {
             p1.innerHTML="";
             p2.innerHTML="";
@@ -316,6 +316,7 @@ function scanPolygon()
             fillbox(activeEdge[i][0],activeEdge[i][1],"red");
             printer=printer+"("+activeEdge[i][0]+","+activeEdge[i][1]+") ";
         }
+        //Printing The Active Edge Enteries 
         p2.innerHTML="Active Edge Table Enteries:";
         if(printer.length==0)
         {
@@ -333,7 +334,7 @@ function scanPolygon()
     }   
     else 
     {   
-        var countNumber=0;
+        var countNumber=0;//This is for printing the Polygon Points in an Orderly fashion 
         var lenOFPrinter=0;
         var lenOFPrinter2=0;
         var printer="";//For Storing The Coordinates In Printable Form 
@@ -348,27 +349,30 @@ function scanPolygon()
                 {
                     lenOFPrinter=printer.length;
                 }
-                else if(countNumber==20)
+                else if(countNumber==18)
                 {
                     lenOFPrinter2=printer.length;
                 }
             }
         }
+
         if(printer.length==0)
         {
             printer="None";
         }
-        //Printing The Coordinates
+        //Printing The Coordinates Upto 10 
         p2.innerHTML="Filled Points inside Polygon along this Scanline:";
         if(countNumber<=10)
             p3.innerHTML=printer;
-        else if(countNumber<=20)
+        //Printing the Coordinates from 10-18 
+        else if(countNumber<=18)
         {
             var substr1=printer.substring(0,lenOFPrinter);
             var substr2=printer.substring(lenOFPrinter);
             p3.innerHTML=substr1;
             p4.innerHTML=substr2;
         }
+        //Printing the Remaining Coordinates
         else
         {
             var substr1=printer.substring(0,lenOFPrinter);
@@ -390,6 +394,9 @@ function scanPolygon()
 function findIntersection(point0,point1,point2)
 {
     var intersectionPoints =[];//Where Intersection will be stored
+    //(x0,y0) is Previous Point
+    //(x1,y1) is Current Line Point
+    //(x2,y2) is Second Line Point
     var x0=point0[0];
     var y0=point0[1]; 
     var x1=point1[0];
@@ -397,15 +404,16 @@ function findIntersection(point0,point1,point2)
     var x2=point2[0];
     var y2=point2[1];
     if((y1>scanline && y2>scanline) || (y1<scanline && y2<scanline) )
-    {
+    {//If point does Not Intersect
         intersectionPoints.push(-1);
     }
     else if(y1==scanline)
-    {   if(y0==scanline && y2==scanline)
-        {
+    {//If it will Intersect    
+        if(y0==scanline && y2==scanline)
+        {//For Point Mentioned In a Staight line along the Scanline
         }
         else
-        {   
+        {//Finding the intersection for Vertex Point  
             intersectionPoints.push(x1,y1);
             if((y0<scanline && y2<scanline) || (y0>scanline && y2>scanline))
             {
@@ -415,7 +423,7 @@ function findIntersection(point0,point1,point2)
         }   
     }
     else if(y1!=scanline && y2!=scanline)
-    {
+    {//Finnding Intersection For A non Vertex Point
         if(x1==x2)
         {
             intersectionPoints.push(x1,scanline);
@@ -428,7 +436,7 @@ function findIntersection(point0,point1,point2)
         }
     }
     else 
-    {
+    {//For All Other Cases
         intersectionPoints=-1;
     }
     return(intersectionPoints);
@@ -456,9 +464,9 @@ function sort(path)
 //Draws the Polygon  
 function drawPolygon(path)
 {
-    var leftMargin =40;
-    var bottomMargin =510;
-    var align=factor/2;
+    var leftMargin =40;//Setting Up Margin
+    var bottomMargin =510;//Setting Up margin
+    var align=factor/2;//To Align the Line In the Middle
     context.beginPath();
     context.moveTo(path[0][0]*factor+leftMargin+align,bottomMargin-path[0][1]*factor-align);
     for(i=1; i<path.length; i++)
@@ -466,22 +474,24 @@ function drawPolygon(path)
         context.lineTo(path[i][0]*factor+leftMargin+align,bottomMargin-path[i][1]*factor-align);
     }
     context.lineTo(path[0][0]*factor+leftMargin+align,bottomMargin-path[0][1]*factor-align);
-    context.lineWidth = 3;
-    context.strokeStyle = "yellow";
-    context.stroke();
+    context.lineWidth = 3;//Setting The Line Width
+    context.strokeStyle = "yellow";//Line Colour
+    context.stroke();//Printing
 }
 
 //Draws The Grid
 function drawGrid()
 {
-    var leftMargin =40;
+    var leftMargin =40;//Setting Margin
     var bottomMargin =510;
-    var align=(factor/2)-5;
+    var align=(factor/2)-5;//Setting Alignment 
     context.beginPath();
+
+    //Printing The Grid Along its Width
     for(i=0; i<=width; i++)
     {
         if(i<width)
-        {
+        {//Printing The Numbers 
             context.fillStyle = "white";
             context.font="15px Arial";
             context.fillText(i,leftMargin+i*factor+align,bottomMargin+15)
@@ -489,10 +499,12 @@ function drawGrid()
         context.moveTo(leftMargin+i*factor,bottomMargin);
         context.lineTo(leftMargin+i*factor,bottomMargin-height*factor);
     }
+
+    //Printing The Grid along its Height
     for(i=0; i<=height; i++)
     {
         if(i<height)
-        {
+        {//Printing The Numbers
             context.fillStyle = "white";
             context.font="15px Arial";
             context.fillText(i,leftMargin-15,bottomMargin-i*factor-align)
@@ -500,6 +512,7 @@ function drawGrid()
         context.moveTo(leftMargin,bottomMargin-i*factor);
         context.lineTo(leftMargin+width*factor,bottomMargin-i*factor);
     }
+    //Line Setup and Printing
     context.lineWidth = 1;
     context.strokeStyle = 'white';
     context.stroke();
@@ -513,16 +526,7 @@ function fillbox(x,y,colour)
     var bottomMargin =510;
     var align=(factor/2)-5;
     context.fillStyle = colour;
-    //context.clearRect(leftMargin+x*factor,bottomMargin-y*factor-factor,factor+1,factor+1);
     context.fillRect(leftMargin+x*factor,bottomMargin-y*factor-factor,factor-1,factor-1);
-    /*Filling grid bloack again 
-    context.moveTo(leftMargin,bottomMargin);
-    context.lineTo(leftMargin+(x+1)*factor,bottomMargin);
-    context.lineTo(leftMargin+(x+1)*factor,bottomMargin-(y+1)*factor);
-    context.lineTo(leftMargin,bottomMargin-(y+1)*factor);
-    context.lineTo(leftMargin,bottomMargin);
-    context.strokeStyle="black";
-    context.stroke();*/
     //Reprinting the Polygon
     drawPolygon(polygonPath);
 }
