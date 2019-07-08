@@ -411,6 +411,7 @@ function findIntersection(point0,point1,point2)
     {//If it will Intersect    
         if(y0==scanline && y2==scanline)
         {//For Point Mentioned In a Staight line along the Scanline
+        	intersectionPoints.push(-1);
         }
         else
         {//Finding the intersection for Vertex Point  
