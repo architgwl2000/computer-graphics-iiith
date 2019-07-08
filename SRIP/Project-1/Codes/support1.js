@@ -233,6 +233,7 @@ function prev_iteration()
 	p7.innerHTML="";
 	p8.innerHTML="";
 	p9.innerHTML="";
+	p0.innerHTML="";
 	l=0;
 	clippedPath=[];
 	if(clipEdge == 1)
@@ -243,25 +244,25 @@ function prev_iteration()
 	{
 		polygonPath= allPath[0].slice();
 		clipEdge = 1;
-		allPath.splice(1,);
+		allPath.splice(1);
 	}
 	else if(clipEdge == 3)
 	{
 		polygonPath= allPath[1].slice();
 		clipEdge = 2;
-		allPath.splice(2,)
+		allPath.splice(2)
 	}
 	else if(clipEdge == 4)
 	{
 		polygonPath= allPath[2].slice();
 		clipEdge = 3;
-		allPath.splice(3,);
+		allPath.splice(3);
 	}
 	else if(clipEdge == 5)
 	{
 		polygonPath = allPath[3].slice();
 		clipEdge = 4;
-		allPath.splice(4,);
+		allPath.splice(4);
 	}
 	else
 	{
@@ -274,30 +275,86 @@ function clip()
 {
 	switch(clipEdge)
 	{
-		case 1: 
+		case 1: //Clearing the Printing Area
+				p1.innerHTML="";
+				p2.innerHTML="";
+				p3.innerHTML="";
+				p4.innerHTML="";
+				p5.innerHTML="";
+				p6.innerHTML="";
+				p7.innerHTML="";
+				p8.innerHTML="";
+				p9.innerHTML="";
+				p0.innerHTML="";
 				clip_left(polygonPath,l);
 				break;
 		
-		case 2: 
+		case 2: //Clearing the Printing Area
+				p1.innerHTML="";
+				p2.innerHTML="";
+				p3.innerHTML="";
+				p4.innerHTML="";
+				p5.innerHTML="";
+				p6.innerHTML="";
+				p7.innerHTML="";
+				p8.innerHTML="";
+				p9.innerHTML="";
+				p0.innerHTML="";
 				clip_top(polygonPath,l);
 				break;
 
-		case 3: 
+		case 3: //Clearing the Printing Area
+				p1.innerHTML="";
+				p2.innerHTML="";
+				p3.innerHTML="";
+				p4.innerHTML="";
+				p5.innerHTML="";
+				p6.innerHTML="";
+				p7.innerHTML="";
+				p8.innerHTML="";
+				p9.innerHTML="";
+				p0.innerHTML="";
 				clip_right(polygonPath,l);
 				break;
 
-		case 4: 
+		case 4: //Clearing the Printing Area
+				p1.innerHTML="";
+				p2.innerHTML="";
+				p3.innerHTML="";
+				p4.innerHTML="";
+				p5.innerHTML="";
+				p6.innerHTML="";
+				p7.innerHTML="";
+				p8.innerHTML="";
+				p9.innerHTML="";
+				p0.innerHTML="";
 				clip_down(polygonPath,l);
 				break;
 		
-		case 5: if(polygonPath.length!=0)
+		case 5: //Clearing the Printing Area
+				p1.innerHTML="";
+				p2.innerHTML="";
+				p3.innerHTML="";
+				p4.innerHTML="";
+				p5.innerHTML="";
+				p6.innerHTML="";
+				p7.innerHTML="";
+				p8.innerHTML="";
+				p9.innerHTML="";
+				p0.innerHTML="";
+				if(polygonPath.length!=0)
 				{
-					p1.innerHTML = "New Coordinates Of New Polygon Are";
-					p2.innerHTML = polygonPath;
-					p3.innerHTML = "New Sides - " + (polygonPath.length);
-					p4.innerHTML = "Experiment Ends Here";
-					p5.innerHTML = " ";
-					p6.innerHTML = "";
+					p1.innerHTML = "Experiment Ends Here";
+					p2.innerHTML = "New Sides - " + (polygonPath.length);
+					p3.innerHTML = "New Coordinates Of New Polygon Are";
+					
+        			var printer="";//For Storing The Coordinates In Printable Form 
+        			for(var i=0;i<polygonPath.length;i++)
+        			{	
+               				printer=printer+"("+polygonPath[i][0]+","+polygonPath[i][1]+") ";
+                	}
+                	p7.innerHTML=printer;
+			  
 					drawPolygon(polygonPath);
 				}
 				else
@@ -412,7 +469,12 @@ function clip_left(path,i)
 		else
 		{
 			p2.innerHTML="Current Coordinates of the Polygon are";
-			p3.innerHTML=polygonPath;
+			var printer="";//For Storing The Coordinates In Printable Form 
+			for(var i=0;i<polygonPath.length;i++)
+        	{	
+            	printer=printer+"("+polygonPath[i][0]+","+polygonPath[i][1]+") ";
+            }
+            p7.innerHTML=printer;
 			drawPolygon(polygonPath);
 		}
 	}
@@ -515,7 +577,12 @@ function clip_top(path,i)
 		else
 		{
 			p2.innerHTML="Current Coordinates of the Polygon are";
-			p3.innerHTML=polygonPath;
+			var printer="";//For Storing The Coordinates In Printable Form 
+			for(var i=0;i<polygonPath.length;i++)
+        	{	
+            	printer=printer+"("+polygonPath[i][0]+","+polygonPath[i][1]+") ";
+            }
+            p7.innerHTML=printer;
 			drawPolygon(polygonPath);
 		}
 	}	
@@ -617,7 +684,12 @@ function clip_right(path,i)
 		else
 		{
 			p2.innerHTML="Current Coordinates of the Polygon are";
-			p3.innerHTML=polygonPath;
+			var printer="";//For Storing The Coordinates In Printable Form 
+			for(var i=0;i<polygonPath.length;i++)
+        	{	
+            	printer=printer+"("+polygonPath[i][0]+","+polygonPath[i][1]+") ";
+            }
+            p7.innerHTML=printer;
 			drawPolygon(polygonPath);
 		}
 	}		
@@ -719,7 +791,12 @@ function clip_down(path,i)
 		else
 		{
 			p2.innerHTML="Current Coordinates of the Polygon are";
-			p3.innerHTML=polygonPath;
+			var printer="";//For Storing The Coordinates In Printable Form 
+			for(var i=0;i<polygonPath.length;i++)
+        	{	
+            	printer=printer+"("+polygonPath[i][0]+","+polygonPath[i][1]+") ";
+            }
+            p7.innerHTML=printer;
 			drawPolygon(polygonPath);
 		}
 	}
