@@ -1,0 +1,95 @@
+Quiz On Clipping Polygon 
+Project-1
+
+In Sutherland-Hodgman Algorithm
+1.How Many Possibilities are there if and edge is to be clipped along a clipping window edge
+a)1
+b)2
+c)3
+d)4
+Ans - d)4 There are Four Possibilities 
+
+
+2.If First vertex is outside while second one is inside then
+a) No Points Are Added In new Polygon 
+b)Only the point of intersection of the edge with the clip boundary is added to the output list
+c)Only Second Point is Added
+d)Both the Second Point & Point of intersection with polygon edge and clip window is added 
+Ans- d) Both the Second Point & Point of intersection with polygon edge and clip window is added
+
+
+3.If Both vertices are inside
+a) No Points Are Added In new Polygon 
+b)Only the point of intersection of the edge with the clip boundary is added to the output list 
+c)Only Second Point is Added
+d)Second Point & Point of intersection with polygon edge and Clipping window is added
+Ans- c)Only Second Point is Added 
+
+
+4.If First vertex is inside while second one is outside    
+a)No Points Are Added In new Polygon 
+b)Only the point of intersection of the edge with the clip boundary is added to the output list 
+c)Second Point is Added
+d)Second Point & Point of intersection with polygon edge and Clipping window is added
+Ans- b)Only the point of intersection of the edge with the clip boundary is added to the output list
+
+5.If Both vertices are outside
+a)No Points Are Added In new Polygon 
+b)Only the point of intersection of the edge with the clip boundary is added to the output list 
+c)Second Point is Added
+d)Second Point & Point of intersection with polygon edge and Clipping window is added
+Ans- a)No Points Are Added In new Polygon 
+
+
+6.Which of the following is not an Polygon Clipping Algorithm
+a)Sutherland–Hodgman algorithm
+b)Greiner–Hormann algorithm
+c)Bresenham algorithm
+d)Vatti algorithm
+Ans- c)Bresenham algorithm
+
+7.The Sutherland Hodgeman works for the following cases :
+a)Convex Polygon with convex clip window
+b)Concave polygon with convex clip window
+c)Convex polygon with concave clip window
+d)a and b
+e)a and c
+f)All of the above
+Ans- d) a & b
+
+8.Will the output matter on the order in which we process the polygon?
+a)Yes
+b)No
+Ans- No
+
+
+9.Let m be the slope of the line joining clip polygon point Pi(x1, y1) and Pi+1(x2, y2). The intersection point of this line with the Left side of clip window is :
+a)x = xmin; y = (int)(y2 + ((xmin - x2)*m));
+b)x = xmax; y = (int)(y2 + ((xmax - x2)*m));
+c)x = x2; y = ymin;
+d)x = (int) (x2 + ((ymax - y2)/m)); y = ymax;
+Ans- a)x = xmin; y = (int)(y2 + ((xmin - x2)*m));
+
+10. The Edges of the polygon after clipping 
+a)Remains the Same
+b)Increases
+c)decreases
+d)All of the above
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
