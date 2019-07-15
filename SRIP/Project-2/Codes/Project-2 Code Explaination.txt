@@ -1,0 +1,113 @@
+﻿Experiment Code Documentation
+Introduction
+This document captures the experiment implementation details.
+
+
+Code Details 
+File Name : support2.js
+File Description : The code contains 10 functions following is a brief description of the files.
+
+
+1. Function : update
+Function Description : 
+1.It resets the value of the all the global variables and gets the required fields updated by the user.
+2.It clears the canvas and the information printing area.
+3. It checks for the wrong inputs given by the User.
+4.It setups the multiplication factor for making the size of the box to be printed in the grid.
+
+
+
+
+2. Function : initial
+Function Description : 
+1. Linked with the Start Experiment button in exp2.html
+2. Calls the update() function to check for any unacceptable inputs
+3. If it is not there then it will convert the coordinates from a string  to an array named coordinates
+4. Copies the coordinates to polygonPath array upto the sides entered by the user.
+5. Calls drawPolygon() function
+6. Calls drawGrid() function
+  
+
+
+
+
+
+
+3.Function : nextIteration
+Function Description : 
+        Linked with next iteration button in exp2.html
+Contains if else ladder
+        Calls scanPolygon() function for filling the polygon until scanline<height
+        When scanline is equal to height it will give final information
+        Then it disables the button next iteration on page
+
+
+4.Function : previousIteration
+Function Description : 
+1. Clears Printing area
+2. Decreases scanline value by one
+3. Clears the grids current scanline 
+
+
+5.Function : scanPolygon
+Function Description : 
+1. Prints the Scanline 
+2. Finds the Intersection and adds it to the active edges 
+3. Sort the edges from xmin to xmax
+4. Then accordingly it prints the boxes in the canvas 
+5. And also prints the Information of the coordinates
+
+
+6. Function : findIntersection
+Function Description : 
+Finds the Intersection point between two lines then returns it and if not returns -1 
+
+
+7. Function : sort
+Function Description : 
+ Takes an edge table and sorts it using bubble sort algorithm
+
+
+
+
+8. Function : drawPolygon
+Function Description : 
+        Takes polygon edge Coordinates and Prints the Polygon in the canvas. 
+
+
+9. Function : drawGrid
+Function Description : 
+        Prints the Grid in the canvas.
+
+
+10. Function : fillbox
+Function Description : 
+        Takes a point coordinate (x,y) and a colour
+Prints the box with position (x,y)  in the Grid with that particular colour
+
+
+Other Details: 
+1. The Code is designed so as to follow scanline algorithm for polygon filling.
+2. Basic algorithm: 
+      For y = ymin to ymax 
+                1) intersect scanline y with each edge         
+2) sort intersections by increasing x [p0,p1,p2,p3]         
+3) fill pairwise  (p0 −> p1, p2−> p3, ....
+However, we need to handle some special 
+cases and improve the performance 
+           If  Intersection is an edge end point
+        For ex- (p0, p1, p2) are three continuous points of the Polygon then if p1 is also an intersection point. If p0 and p2 are both on the same side of scanline then p1 is considered twice. If all three are same then p1 is not considered at all and if they lie on opposite sides it is considered as one point only.
+
+
+
+
+
+
+
+
+
+
+
+
+File Name : support2.css
+File Description : This File Contains the designing and formatting as seen in the html page.
