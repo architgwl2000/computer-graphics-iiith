@@ -76,9 +76,12 @@ b)Increases
 c)decreases
 d)All of the above
 
-
-
-
+11. In displaying a clipped picture the efficient method is ?
+a)Clipping against the window and then applying the window transformation
+b)Applying window transformation and then clipping against the view port
+c)Both A and B have the same efficiency
+d)Efficiency depends on whether the window is an aligned rectangle or not
+Ans- d)Efficiency depends on whether the window is an aligned rectangle or not
 
 
 

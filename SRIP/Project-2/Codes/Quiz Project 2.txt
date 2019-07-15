@@ -1,0 +1,88 @@
+Quiz On Rasterization Polygon 
+Project 2
+
+
+Q1.Computer graphics was first used by
+a)William fetter in 1960
+b)James fetter in 1969
+c)James gosling in 1991
+d)John Taylor in 1980
+Ans-a)Willaim fetter in 1960
+
+
+Q2. Which of the Following is not an Rasterization Algorithm
+a)Bresenham
+b)Scanline
+c)Sutherland
+d)pipeline
+Ans-Sutherland
+
+Q3.Which is the widely used Geometric Shape for redering
+a)triangle
+b)square
+c)pantagon
+d)hexagon
+Ans-a)triangle
+
+Q4.The types of hidden surface removal algorithm are
+a)Depth comparison, Z-buffer, back-face removal
+b)Scan line algorithm, priority algorithm
+c)BSP method, area subdivision method
+d)All of these
+Ans-d)All of these
+
+Q5.The scan line coherence algorithm was developed by
+a)Wylie
+b)Evans
+c)Cat mull
+d)Both a & b
+Ans-d)Both a & b
+
+Q6.The main task of the display processor is to digitize a picture definition given in an application program; this digitization process is known as_________________
+a)transformation
+b)rasterization
+c)both (a) and (b)
+d)scan conversion
+Ans- d)scan conversion
+
+Q7.Random scan systems are designed for
+a)Line drawing application
+b)Pixel drawing application
+c)Color drawing application
+d)None of these
+Ans- a)Line Drawing Application
+
+Q8.Does It matter in which order the Scanline have been done
+a)Yes
+b)No
+Ans- b)No 
+
+In Scanline Algorithm 
+Q9. If an edge point is encountered then
+a)Don't consider the Point if bith sides are on scanline
+b)Consisdered once if both sides are on opposite side of the scanline
+c)Consisdered twice if both sides are on same side
+d)All of the above
+Ans- d)All of the Above
+
+Q10. When two extreme points(xi and xj) of the polygon are found then filling is done as
+a)ceiling(xi) to floor(xj)
+b)floor(xi) to floor(xj)
+c)ceiling(xi) to ceiling(xj)
+d)floor(xi) to ceiling(xj)
+Ans- a)ceiling(xi) to floor(xj)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
