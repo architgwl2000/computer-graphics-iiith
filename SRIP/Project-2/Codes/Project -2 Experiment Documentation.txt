@@ -1,0 +1,96 @@
+﻿Rasterization Polygon Experiment 
+Project Documentation
+Introduction 
+This  document captures the technical details related to the experiment development. Developer Information and Environment Details. 
+
+
+
+
+Project 
+Domain Name : Computer Science & Engineering
+Lab Name :  Computer Graphics
+Experiment Name : Rasterization polygon 
+
+
+Purpose of the project 
+The purpose of the project is to convert the Rasterization Polygon experiment simulation from Java to Javascript. 
+
+
+Project Developers Details  
+
+
+	Name
+	Year of Study 
+	Role
+	Email-ID
+	Github handle
+	1.
+	Mudit Gupta
+	1st Year
+	Full Development
+	muditgupta9807@gmail.com
+	muditgupta9807
+	
+
+
+
+Technologies and Libraries 
+Technologies :
+1. HTML
+2. CSS
+3. Javascript
+Libraries : None
+Development Environment
+OS : Windows & Linux Ubuntu
+Bandwidth: 20mbps
+
+
+Documents :
+S.NO
+	Link to Document
+	Role
+	1.
+	exp2.html
+	On this file you can perform the Experiment
+	2.
+	support2.css
+	Css File Containing  the code
+	3.
+	support2.js
+	Javascript File Containing the Code
+	4.
+	procedure 
+	This document captures the instructions to run the simulations
+	5.
+	test cases
+	This document captures the functional test cases of the experiment simulation
+	6.
+	code explanation
+	This document captures the  details related to code
+	7.
+	Experiment Documentation
+	This Document captures a brief Overview of the Experiment and all other file purposes.
+	
+
+Process Followed to convert the experiment 
+1. Understand the assigned experiment Java simulation on vlab.co.in using an old browser version and jre 
+2. Understanding the experiment concept 
+3. Developing the Algorithm 
+4. Re-implement the same in javascript
+
+
+
+
+Value Added by our Project
+1. It would be beneficial for engineering students 
+2. Highly beneficial for tier 2 and tier 3 college students who can use this to learn and understand the concept of perception learning.
+
+
+Risks and Challenges :
+1. Printing the grid fully into the Canvas for any no. of rows and columns.
+2. Overcoming Mathematical Issues that on which conditions there could  be 1/0 and infinity cases.
+3. Wrong Inputs Given By the User
+
+
+Issues : 
+        None Currently

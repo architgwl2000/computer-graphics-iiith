@@ -1,0 +1,28 @@
+﻿Rasterization: Polygon
+Experiment Procedure Documentation
+
+
+Introduction 
+This document contains the instructions to run the simulation.
+Follow the Above Steps and Instructions.
+
+
+Instructions 
+1. To run the experiment, simply run the exp2.html file by clicking on it and the experiment will open in the browser.
+          
+2. Enter The Required Fields
+        -Frame Height (Min. value 1 to Max. value 25)
+        -Frame Width  (Min. value 1 to Max. value 25)
+        -Polygon Sides (Between 3 to 10)
+        -Polygon Coordinates in the format x1 y1,x2 y2,
+
+3. After Properly Entering the Values Click on Start Experiment You'll See the Grid    and Polygon In the Black Area.
+
+4. Then Click on Next Iteration to continue filling the Polygon Along the scanline 
+        Click On Previous Iteration To go back one Scanline.
+ 
+
+5.The Experiment Will End after It has Gone Through all the Scanlines
+  
+
+6. To perform again enter the new values and click on update.
