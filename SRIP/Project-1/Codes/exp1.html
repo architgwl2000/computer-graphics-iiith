@@ -8,25 +8,25 @@
 </head>
 <body>
 	<div class="row">
-		<h2>Clipping Polygon Experiment</h2>
+		<h2 id="heading">Clipping Polygon Experiment</h2>
 	<div class="column" id="column1"> <!-- Dividing the Page into left part-->
 		<form>
-			Enter The Dimensions of Rectangle   <br>
+			<b>Enter The Dimensions of Rectangle</b>   <br>
 			Note - The Co-ordinates Entered should of the diagonal of the Rectangle <br> <!-- Entered The Co-ordinates of the Rectangle--> 
 			Max value is (500,500) <br>
-			<input type="number" id='x1s' value="100">x1  
-			<input type="number" id='y1s' value="100">y1 <br>  
-			<input type="number" id='x2s' value="300">x2 
-			<input type="number" id='y2s' value="300">y2 <br><br>
-			Enter the sides of the Polygon(max 10) <emsp></emsp><!-- Entereing the Co-ordinates of the Polygon -->
+			<input type="number" id='x1s' value="100"><b>X1  
+			<input type="number" id='y1s' value="100">Y1 <br>  
+			<input type="number" id='x2s' value="300">X2 
+			<input type="number" id='y2s' value="300">Y2</b> <br><br>
+			<b>Enter the sides of the Polygon(max 10)</b> <emsp></emsp><!-- Entereing the Co-ordinates of the Polygon -->
 			<input type="number" id="polyside" value='4'><br><br>
-			Enter The Co-ordinates of the Polygon in Sequential order <br>
+			<b>Enter The Co-ordinates of the Polygon in Sequential order</b> <br>
 			Max value is (500,500) <br>
 			<textarea id="polyco" rows="2" cols="50">50 200,200 50,350 200,200 350,</textarea>
-			<button type="button" onclick="update()";>Update </button><br><!-- Updates The Values of the Polygon-->
-			<button type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
-			<button type="button" onclick="prev_iteration()"> Previous Iteration </button><!-- This Button will clip the egdes one by one--> 
-			<button type="button" onclick="next_iteration()"> Next Iteration </button><br><!-- This Button will clip the egdes one by one-->  
+			<button id="designbutton" type="button" onclick="update()";>Update </button><br><!-- Updates The Values of the Polygon-->
+			<button id="designbutton" type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
+			<button id="designbutton" type="button" onclick="prev_iteration()"> Previous Iteration </button><!-- This Button will clip the egdes one by one--> 
+			<button id="designbutton" type="button" onclick="next_iteration()"> Next Iteration </button><br><!-- This Button will clip the egdes one by one-->  
 		</form>
 		<p id="print0"></p>
 		<p id="print1"></p>

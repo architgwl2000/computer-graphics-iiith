@@ -16,18 +16,53 @@
   display: table;
   clear: both;
 }
-/*Change the backgorund Color of Left Half*/ 
-#column1 {
-	background: lightpink;
-}
-/*Change the backgorund Color of Right Half*/
-#column2 {
-	background: white;
-}
+
 /*Change the backgorund Color of Canvas*/
 #myCanvas{
 	background: lightblue;
   
+}
+/*Change the backgorund Color of Left Half*/ 
+#column1 {
+  background: lightyellow;
+}
+
+/*Button Designing*/
+#designbutton {
+  background-color: green;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+
+#x1s{
+  text-align: center;
+}
+
+#x2s{
+  text-align: center;
+}
+#y1s{
+  text-align: center;
+}
+#y2s{
+  text-align: center;
+}
+
+#polyside{
+  text-align: center;
+}
+
+#heading{
+   text-align: center;
 }
 
 #print0{
