@@ -8,21 +8,21 @@
 </head>
 <body>
 	<div class="row">
-		<h2>Rasterization: Polygon Experiment</h2>
+		<h2 id="heading">Rasterization: Polygon Experiment</h2>
 	<div class="column" id="column1"> <!-- Dividing the Page into left part-->
 		<form>
-			Enter Frame Width <emsp></emsp>
+			<b>Enter Frame Width <emsp></emsp>
 			<input type="number" id='width' value="10"> <br>
 			Enter Frame Height <emsp></emsp>
 			<input type="number" id='height' value="10"> <br><br>
 			Enter the sides of the Polygon(max 10) <emsp></emsp><!-- Entereing the Co-ordinates of the Polygon -->
-			<input type="number" id="polyside" value='4'><br>
+			<input type="number" id="polyside" value='4'><br><br>
 			Enter The Co-ordinates of the Polygon in Sequential order <br>
 			<textarea id="polyco" rows="2" cols="35">2 2,2 8,8 8,8 2,</textarea>
-			<button type="button" onclick="update()";>Update </button><br><!-- Updates The Values of the Polygon-->
-			<button type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
-			<button type="button" onclick="previousIteration()"> Previous Iteration </button><!-- This Button will Scan previous The Line One By one--> 
-			<button type="button" onclick="nextIteration()"> Next Iteration </button><br><!-- This Button will Scan the Next line one by one-->  
+			<button id="designbutton"  type="button" onclick="update()";>Update </button><br><!-- Updates The Values of the Polygon-->
+			<button id="designbutton" type="button" onclick="initial()"> Start Experiment </button><br> <!-- it will Setup the Vaues and function which will print the polygon along with the rectangle in which it is to be clipped-->
+			<button id="designbutton" type="button" onclick="previousIteration()"> Previous Iteration </button><!-- This Button will Scan previous The Line One By one--> 
+			<button id="designbutton" type="button" onclick="nextIteration()"> Next Iteration </button><br><!-- This Button will Scan the Next line one by one--></b>  
 		</form>
 		<p id="print0"></p>
 		<p id="print1"></p>

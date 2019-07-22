@@ -29,6 +29,40 @@
 	background: black;
   
 }
+
+/*Designing the buttons*/
+#designbutton {
+  background-color: green;
+  border: none;
+  color: white;
+  padding: 5px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+
+#width{
+  text-align: center;
+}
+
+#height{
+  text-align: center;
+}
+
+
+#polyside{
+  text-align: center;
+}
+
+#heading{
+   text-align: center;
+}
+
 /*Make Box Type Feeling in printing statements*/ 
 #print0 {
   background: white;
